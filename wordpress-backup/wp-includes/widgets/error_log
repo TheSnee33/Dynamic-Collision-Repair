@@ -1,0 +1,8 @@
+[25-May-2026 13:10:25 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Widget" not found in /home1/dynam108/public_html/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/widgets/class-wp-widget-block.php on line 17
+[29-May-2026 14:48:33 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Widget" not found in /home1/dynam108/public_html/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/widgets/class-wp-widget-block.php on line 17

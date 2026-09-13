@@ -1,0 +1,18 @@
+# -FrontPage-
+
+
+
+<Limit GET POST>
+order deny,allow
+deny from all
+allow from all
+require group authors administrators
+</Limit>
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthType Basic
+AuthName dynamiccollisionprovo.com
+AuthUserFile /home/dynam108/public_html/_vti_pvt/service.pwd
+AuthGroupFile /home/dynam108/public_html/_vti_pvt/service.grp

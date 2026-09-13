@@ -1,0 +1,48 @@
+[25-May-2026 12:53:55 America/Boise] PHP Fatal error:  Uncaught Error: Class "PHPMailer\PHPMailer\PHPMailer" not found in /home1/dynam108/public_html/wp-includes/class-wp-phpmailer.php:16
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-phpmailer.php on line 16
+[25-May-2026 12:54:38 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Dependencies" not found in /home1/dynam108/public_html/wp-includes/class-wp-scripts.php:18
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-scripts.php on line 18
+[25-May-2026 12:55:13 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Dependencies" not found in /home1/dynam108/public_html/wp-includes/class-wp-styles.php:18
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-styles.php on line 18
+[25-May-2026 12:58:18 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function add_filter() in /home1/dynam108/public_html/wp-includes/connectors.php:566
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/connectors.php on line 566
+[25-May-2026 13:00:56 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_the_block_template_html() in /home1/dynam108/public_html/wp-includes/template-canvas.php:12
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/template-canvas.php on line 12
+[25-May-2026 13:01:56 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _wp_can_use_pcre_u() in /home1/dynam108/public_html/wp-includes/utf8.php:137
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/utf8.php on line 137
+[29-May-2026 14:39:17 America/Boise] PHP Fatal error:  Uncaught Error: Class "PHPMailer\PHPMailer\PHPMailer" not found in /home1/dynam108/public_html/wp-includes/class-wp-phpmailer.php:16
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-phpmailer.php on line 16
+[29-May-2026 14:39:51 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Dependencies" not found in /home1/dynam108/public_html/wp-includes/class-wp-scripts.php:18
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-scripts.php on line 18
+[29-May-2026 14:40:22 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Dependencies" not found in /home1/dynam108/public_html/wp-includes/class-wp-styles.php:18
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/class-wp-styles.php on line 18
+[29-May-2026 14:42:08 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function add_filter() in /home1/dynam108/public_html/wp-includes/connectors.php:566
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/connectors.php on line 566
+[29-May-2026 14:43:30 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function get_the_block_template_html() in /home1/dynam108/public_html/wp-includes/template-canvas.php:12
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/template-canvas.php on line 12
+[29-May-2026 14:43:55 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _wp_can_use_pcre_u() in /home1/dynam108/public_html/wp-includes/utf8.php:137
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/utf8.php on line 137

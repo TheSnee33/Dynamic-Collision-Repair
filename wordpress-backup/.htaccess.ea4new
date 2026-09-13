@@ -1,0 +1,35 @@
+DirectoryIndex index.html.var index.htm index.html index.shtml index.xhtml index.wml index.perl index.pl index.plx index.ppl index.cgi index.jsp index.js index.jp index.php4 index.php3 index.php index.phtml default.htm default.html home.htm index.php5 Default.html Default.htm home.html
+# Use PHP5 Single php.ini as default
+AddHandler application/x-httpd-ea-php70 .php
+# -FrontPage-
+
+
+<Limit GET POST>
+order deny,allow
+deny from all
+allow from all
+</Limit>
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthUserFile /home/dynam108/public_html/_vti_pvt/service.pwd
+AuthGroupFile /home/dynam108/public_html/_vti_pvt/service.grp
+ErrorDocument 404 /404.shtml
+
+AuthName dynamiccollisionprovo.com
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+#Weebly Additions Start
+DirectoryIndex index.html index.shtml index.xhtml index.wml index.perl index.pl index.plx index.ppl index.cgi index.jsp index.js index.jp index.php4 index.php3 index.php index.phtml index.htm home.htm default.htm index.fcgi
+ErrorDocument 404 /404.php
+ErrorDocument 403 /404.php
+
+Options -Indexes
+# Send send no-cache headers for root (/) and (.html) files
+SetEnvIf Request_URI "(^/|\.html)$" HTML_FILE
+Header add Pragma "no-cache" env=HTML_FILE
+Header add Cache-Control "no-cache, no-store, max-age=0, must-revalidate" env=HTML_FILE
+Header add Expires "-1" env=HTML_FILE
+
+
+#Weebly Additions End

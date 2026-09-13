@@ -1,0 +1,20 @@
+[07-Jun-2026 11:27:31 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _x() in /home1/dynam108/public_html/wp-includes/block-patterns/navigation-overlay.php:9
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/block-patterns/navigation-overlay.php on line 9
+[07-Jun-2026 11:27:32 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _x() in /home1/dynam108/public_html/wp-includes/block-patterns/query-grid-posts.php:9
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/block-patterns/query-grid-posts.php on line 9
+[07-Jun-2026 11:27:33 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _x() in /home1/dynam108/public_html/wp-includes/block-patterns/query-medium-posts.php:9
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/block-patterns/query-medium-posts.php on line 9
+[07-Jun-2026 11:27:34 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _x() in /home1/dynam108/public_html/wp-includes/block-patterns/query-offset-posts.php:9
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/block-patterns/query-offset-posts.php on line 9
+[07-Jun-2026 11:27:35 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function _x() in /home1/dynam108/public_html/wp-includes/block-patterns/query-small-posts.php:9
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/block-patterns/query-small-posts.php on line 9

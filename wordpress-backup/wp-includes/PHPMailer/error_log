@@ -1,0 +1,12 @@
+[25-May-2026 13:04:33 America/Boise] PHP Fatal error:  Uncaught Error: Interface "PHPMailer\PHPMailer\OAuthTokenProvider" not found in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php:36
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php on line 36
+[29-May-2026 14:45:32 America/Boise] PHP Fatal error:  Uncaught Error: Interface "PHPMailer\PHPMailer\OAuthTokenProvider" not found in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php:36
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php on line 36
+[07-Jun-2026 11:26:47 America/Boise] PHP Fatal error:  Uncaught Error: Interface "PHPMailer\PHPMailer\OAuthTokenProvider" not found in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php:36
+Stack trace:
+#0 {main}
+  thrown in /home1/dynam108/public_html/wp-includes/PHPMailer/OAuth.php on line 36

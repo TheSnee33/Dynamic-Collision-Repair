@@ -1,0 +1,20 @@
+# Use PHP5 Single php.ini as default
+AddHandler application/x-httpd-php5s .php
+# -FrontPage-
+
+
+<Limit GET POST>
+order deny,allow
+deny from all
+allow from all
+</Limit>
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthUserFile /home/dynam108/public_html/_vti_pvt/service.pwd
+AuthGroupFile /home/dynam108/public_html/_vti_pvt/service.grp
+ErrorDocument 404 /404.shtml
+
+AuthName dynamiccollisionprovo.com
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
