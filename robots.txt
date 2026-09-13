@@ -2,8 +2,6 @@ User-agent: *
 Allow: /
 Sitemap: https://dynamiccollisionprovo.com/sitemap.xml
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
+# Dynamic Collision Repair
+# https://dynamiccollisionprovo.com
+# Family-owned auto body shop in Provo, UT since 1979
