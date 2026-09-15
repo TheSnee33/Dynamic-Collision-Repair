@@ -271,7 +271,7 @@ strong { font-weight: 600; }
   background: var(--accent);
   color: #ffffff !important;
   padding: 0.6rem 1.5rem;
-  border-radius: 50px;
+  border-radius: 8px;
   font-weight: 600;
   font-size: var(--fs-sm);
   transition: background var(--transition-fast), transform var(--transition-fast);
@@ -367,7 +367,8 @@ strong { font-weight: 600; }
 /* --------------------------------------------------------------------------
    6. Hero Section
    -------------------------------------------------------------------------- */
-.hero {
+.hero,
+.hero-section {
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -375,6 +376,10 @@ strong { font-weight: 600; }
   justify-content: center;
   text-align: center;
   overflow: hidden;
+  padding-top: 100px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero-bg {
@@ -803,7 +808,7 @@ strong { font-weight: 600; }
   font-family: 'Inter', sans-serif;
   font-size: var(--fs-sm);
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 8px;
   transition: all 0.3s;
   cursor: pointer;
   white-space: nowrap;
@@ -815,6 +820,12 @@ strong { font-weight: 600; }
   color: #ffffff;
   border: none;
   display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  transition: all 0.3s;
 }
 
 .btn-primary:hover {
@@ -824,14 +835,33 @@ strong { font-weight: 600; }
 }
 
 .btn-secondary {
-  background: transparent;
+  background: #991b1b;
   color: #ffffff;
-  border: 2px solid #ffffff;
+  border: none;
   display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  transition: all 0.3s;
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.1);
+  background: #7f1d1d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(185,28,28,0.4);
+}
+
+/* Hero and CTA button groups — centered */
+.hero-buttons,
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
 }
 
 .btn-ghost {
