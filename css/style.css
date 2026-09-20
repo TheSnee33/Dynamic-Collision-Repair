@@ -235,6 +235,30 @@ strong { font-weight: 600; }
   color: var(--accent);
 }
 
+.logo-text-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-mobile-phone {
+  display: none;
+}
+
+.nav-mobile-phone a {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ef4444;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  transition: color var(--transition-fast);
+}
+
+.nav-mobile-phone a:hover {
+  color: #ffffff;
+}
+
 /* Desktop nav links */
 .nav-links {
   display: flex;
@@ -1410,6 +1434,18 @@ select.form-control {
   .nav-logo .logo-icon-img {
     height: 24px;
     max-width: 48px;
+  }
+
+  .nav-mobile-phone {
+    display: block;
+    margin-top: 1px;
+  }
+
+  .nav-mobile-phone a {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #ef4444;
+    letter-spacing: 0.4px;
   }
 
   .nav-links {
