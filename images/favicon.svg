@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favBody" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="50%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+    <linearGradient id="favGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="favBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+  </defs>
+
+  <!-- High contrast dark circle badge for browser tabs -->
+  <circle cx="32" cy="32" r="30" fill="url(#favBg)" stroke="#b91c1c" stroke-width="2.5"/>
+
+  <!-- Speed motion accent -->
+  <path d="M8 28 L18 28" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M6 34 L16 34" stroke="#dc2626" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Sleek Sports Car Body Silhouette -->
+  <!-- Low nose, swept back cockpit, spoiler, wheel arches -->
+  <path d="
+    M 10 39
+    C 11 35 15 32 20 31
+    C 24 30 28 29 32 24
+    C 37 20 44 20 48 24
+    C 53 28 57 32 60 34
+    C 62 36 62 38 60 40
+    C 58 41 55 42 52 42
+    C 51 37 47 34 42 34
+    C 37 34 33 37 32 42
+    L 26 42
+    C 25 37 21 34 16 34
+    C 11 34 8 37 7 42
+    L 9 42
+    Z"
+    fill="url(#favBody)"
+  />
+
+  <!-- Canopy / Cockpit -->
+  <path d="
+    M 28 29
+    C 31 24 35 22 41 22
+    C 45 22 48 25 50 28
+    L 32 29
+    Z"
+    fill="url(#favGlass)"
+  />
+
+  <!-- Laser Headlight glow -->
+  <ellipse cx="59" cy="35" rx="2" ry="1.2" fill="#38bdf8"/>
+
+  <!-- Front Wheel -->
+  <circle cx="42" cy="41" r="5" fill="#090d16" stroke="#475569" stroke-width="1"/>
+  <circle cx="42" cy="41" r="2.2" fill="#dc2626"/>
+
+  <!-- Rear Wheel -->
+  <circle cx="16" cy="41" r="5" fill="#090d16" stroke="#475569" stroke-width="1"/>
+  <circle cx="16" cy="41" r="2.2" fill="#dc2626"/>
+
+  <!-- Spoiler -->
+  <path d="M 12 28 L 18 28 L 16 31 L 11 31 Z" fill="#450a0a" stroke="#ef4444" stroke-width="0.75"/>
+</svg>

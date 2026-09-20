@@ -1,35 +1,197 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="200" height="100">
-  <!-- Sleek sports car silhouette - red/maroon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" width="100%" height="100%">
   <defs>
-    <linearGradient id="carGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#dc2626"/>
-      <stop offset="100%" style="stop-color:#7f1d1d"/>
+    <!-- Sports car metallic candy red gradient -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="25%" stop-color="#dc2626"/>
+      <stop offset="50%" stop-color="#ef4444"/>
+      <stop offset="75%" stop-color="#991b1b"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
     </linearGradient>
-    <linearGradient id="windowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#4a5568"/>
-      <stop offset="100%" style="stop-color:#1a202c"/>
+
+    <!-- Deep maroon shadow gradient -->
+    <linearGradient id="deepMaroon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d"/>
+      <stop offset="100%" stop-color="#450a0a"/>
     </linearGradient>
+
+    <!-- Tinted aerodynamic sports canopy glass -->
+    <linearGradient id="glassGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#1e293b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <!-- Glass reflection highlight -->
+    <linearGradient id="glassReflect" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Rim wheel metallic gradient -->
+    <radialGradient id="rimGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="40%" stop-color="#94a3b8"/>
+      <stop offset="75%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+
+    <!-- Red brake caliper -->
+    <linearGradient id="caliperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+
+    <!-- High-speed aerodynamic ground blur shadow -->
+    <radialGradient id="groundShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#000000" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <!-- Car body - sleek sports car -->
-  <path d="M20,65 L30,65 L35,55 L55,40 L75,32 L110,30 L140,32 L160,38 L175,50 L185,58 L185,65 L180,70 L155,72 L145,72 L135,65 L75,65 L65,72 L45,72 L35,65 Z" fill="url(#carGrad)" stroke="#991b1b" stroke-width="1"/>
-  <!-- Roof line / window area -->
-  <path d="M60,55 L70,40 L82,34 L115,33 L135,36 L155,45 L160,55 Z" fill="url(#windowGrad)" stroke="#4a5568" stroke-width="0.5"/>
-  <!-- Window divider -->
-  <line x1="110" y1="33" x2="112" y2="55" stroke="#2d3748" stroke-width="1.5"/>
-  <!-- Front wheel -->
-  <circle cx="55" cy="68" r="14" fill="#1a1a2e" stroke="#4a5568" stroke-width="2"/>
-  <circle cx="55" cy="68" r="9" fill="#2d2d44" stroke="#555" stroke-width="1"/>
-  <circle cx="55" cy="68" r="3" fill="#666"/>
-  <!-- Rear wheel -->
-  <circle cx="150" cy="68" r="14" fill="#1a1a2e" stroke="#4a5568" stroke-width="2"/>
-  <circle cx="150" cy="68" r="9" fill="#2d2d44" stroke="#555" stroke-width="1"/>
-  <circle cx="150" cy="68" r="3" fill="#666"/>
-  <!-- Headlight -->
-  <ellipse cx="178" cy="56" rx="5" ry="3" fill="#fbbf24" opacity="0.9"/>
-  <!-- Tail light -->
-  <rect x="22" y="57" width="8" height="4" rx="2" fill="#ef4444" opacity="0.9"/>
-  <!-- Speed lines -->
-  <line x1="2" y1="45" x2="18" y2="45" stroke="#dc2626" stroke-width="1.5" opacity="0.6"/>
-  <line x1="5" y1="52" x2="22" y2="52" stroke="#b91c1c" stroke-width="1" opacity="0.5"/>
-  <line x1="8" y1="59" x2="20" y2="59" stroke="#991b1b" stroke-width="1" opacity="0.4"/>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="256" cy="206" rx="230" ry="16" fill="url(#groundShadow)"/>
+
+  <!-- Speed Aero Streaks Behind Spoiler -->
+  <path d="M12 118 L85 118" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+  <path d="M28 132 L95 132" stroke="#dc2626" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M4 146 L108 146" stroke="#991b1b" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Rear Wing / High Downforce Spoiler -->
+  <path d="M68 94 C72 82 82 78 108 76 L130 76 C136 76 138 82 132 88 L114 96 C98 98 80 98 68 94 Z" fill="#450a0a" stroke="#dc2626" stroke-width="1"/>
+  <path d="M96 95 L90 126 L102 126 L110 95 Z" fill="#1e293b"/>
+  <path d="M116 94 L112 124 L122 124 L128 94 Z" fill="#0f172a"/>
+
+  <!-- Main Aerodynamic Body Contour (Low-slung supercar profile) -->
+  <path d="
+    M56 160
+    C60 142 75 125 106 122
+    C128 120 152 118 172 108
+    C195 94 228 72 278 68
+    C330 64 366 78 396 104
+    C426 128 456 142 492 148
+    C508 152 514 158 506 166
+    C492 174 466 178 440 176
+    C436 150 412 130 380 130
+    C348 130 324 152 320 176
+    L200 176
+    C196 150 172 130 140 130
+    C108 130 84 152 80 176
+    L58 176
+    C50 176 46 170 50 164
+    Z"
+    fill="url(#bodyGrad)"
+    stroke="#7f1d1d"
+    stroke-width="1.5"
+  />
+
+  <!-- Lower Body Maroon Ground Effect Skirts & Diffusers -->
+  <path d="
+    M54 168
+    L80 176
+    C84 160 100 142 126 140
+    C152 140 170 156 176 176
+    L324 176
+    C328 158 344 140 370 140
+    C396 140 414 158 418 176
+    L482 176
+    C496 176 502 182 488 186
+    L434 186
+    L422 180
+    L320 180
+    L202 180
+    L142 180
+    L82 180
+    L52 182
+    C44 180 44 172 54 168
+    Z"
+    fill="url(#deepMaroon)"
+  />
+
+  <!-- Muscular Shoulder Crease / Sharp Air Intake Sculpting -->
+  <path d="M192 138 Q250 134 320 120 Q370 110 418 130" stroke="#fca5a5" stroke-width="1.75" fill="none" opacity="0.75"/>
+  <path d="M190 140 Q250 136 320 123 Q350 118 382 138" stroke="#450a0a" stroke-width="2" fill="none"/>
+
+  <!-- Aggressive Side Air Scoop (Mid-Engine V8/V10 Induction) -->
+  <path d="M228 136 L204 166 C200 172 208 174 216 172 L248 142 Z" fill="#0f172a" stroke="#7f1d1d" stroke-width="1"/>
+  <path d="M222 140 L208 162" stroke="#dc2626" stroke-width="1" opacity="0.6"/>
+
+  <!-- Cockpit / Glass Canopy -->
+  <path d="
+    M180 116
+    C200 96 232 76 276 72
+    C320 68 352 80 378 104
+    C388 113 392 118 388 120
+    L220 122
+    C192 122 182 120 180 116
+    Z"
+    fill="url(#glassGrad)"
+    stroke="#0f172a"
+    stroke-width="1.5"
+  />
+
+  <!-- Canopy High-Tech Reflection -->
+  <path d="
+    M204 114
+    C224 94 250 78 288 74
+    C324 71 346 80 366 98
+    L352 100
+    C332 85 312 78 282 80
+    C250 82 226 96 210 114
+    Z"
+    fill="url(#glassReflect)"
+  />
+
+  <!-- A-Pillar and B-Pillar Structural Accents -->
+  <path d="M280 72 L274 122" stroke="#1e293b" stroke-width="2.5"/>
+  <path d="M344 88 L348 120" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Sleek Angular Laser LED Headlight (Aggressive Hypercar Eye) -->
+  <polygon points="460,146 498,154 476,160 452,154" fill="#f8fafc" stroke="#38bdf8" stroke-width="1"/>
+  <polygon points="466,149 492,154 476,157 458,154" fill="#38bdf8" opacity="0.85"/>
+  <line x1="498" y1="154" x2="516" y2="157" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- LED Taillight Blade (Modern Continuous Light Strip) -->
+  <path d="M54 154 L72 152 L70 156 L52 158 Z" fill="#ef4444" filter="drop-shadow(0 0 4px #ef4444)"/>
+
+  <!-- FRONT WHEEL ASSEMBLY (High Performance Rotor, Caliper & Alloy Rim) -->
+  <!-- Outer Tire -->
+  <circle cx="376" cy="172" r="34" fill="#090d16" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="376" cy="172" r="28" fill="#1e293b"/>
+  <!-- Cross-drilled Brake Rotor -->
+  <circle cx="376" cy="172" r="23" fill="#64748b" stroke="#334155" stroke-width="1"/>
+  <!-- Brembo-Style Sport Caliper -->
+  <path d="M362 154 C366 150 376 150 382 152 L380 162 C376 160 368 160 364 164 Z" fill="url(#caliperGrad)"/>
+  <!-- 5-Spoke Twin Alloy Wheel -->
+  <circle cx="376" cy="172" r="19" fill="url(#rimGrad)"/>
+  <!-- Spokes -->
+  <line x1="376" y1="172" x2="376" y2="154" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="376" y1="172" x2="393" y2="164" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="376" y1="172" x2="387" y2="188" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="376" y1="172" x2="365" y2="188" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="376" y1="172" x2="359" y2="164" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Center Hub Cap -->
+  <circle cx="376" cy="172" r="5" fill="#dc2626" stroke="#ffffff" stroke-width="1"/>
+
+  <!-- REAR WHEEL ASSEMBLY -->
+  <!-- Outer Tire -->
+  <circle cx="138" cy="172" r="34" fill="#090d16" stroke="#1e293b" stroke-width="2.5"/>
+  <circle cx="138" cy="172" r="28" fill="#1e293b"/>
+  <!-- Cross-drilled Brake Rotor -->
+  <circle cx="138" cy="172" r="23" fill="#64748b" stroke="#334155" stroke-width="1"/>
+  <!-- Sport Caliper -->
+  <path d="M124 154 C128 150 138 150 144 152 L142 162 C138 160 130 160 126 164 Z" fill="url(#caliperGrad)"/>
+  <!-- 5-Spoke Twin Alloy Wheel -->
+  <circle cx="138" cy="172" r="19" fill="url(#rimGrad)"/>
+  <!-- Spokes -->
+  <line x1="138" y1="172" x2="138" y2="154" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="138" y1="172" x2="155" y2="164" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="138" y1="172" x2="149" y2="188" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="138" y1="172" x2="127" y2="188" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="138" y1="172" x2="121" y2="164" stroke="#f1f5f9" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Center Hub Cap -->
+  <circle cx="138" cy="172" r="5" fill="#dc2626" stroke="#ffffff" stroke-width="1"/>
 </svg>
