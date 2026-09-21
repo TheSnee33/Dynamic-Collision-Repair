@@ -34,7 +34,7 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/svg+xml" href="images/favicon.svg"><text y='.9em' font-size='90'>🚗</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -120,6 +120,7 @@
           <li><a href="services.html" id="nav-services">Services</a></li>
           <li><a href="about.html" id="nav-about">About</a></li>
           <li><a href="contact.html" id="nav-contact">Contact</a></li>
+          <li><a href="#" class="nav-register-btn" id="nav-register" data-modal-target="registerModal">Register</a></li>
         </ul>
         <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
         <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
@@ -139,7 +140,7 @@
       <h1 class="fade-in-up delay-1" id="hero-heading">Provo's Trusted Auto Body Shop — <span class="text-accent">Since 1979</span></h1>
       <p class="hero-subtitle fade-in-up delay-2" id="hero-subtitle">Family-owned collision repair with a lifetime warranty on every job. Quality work at prices that won't break the bank.</p>
       <div class="hero-buttons fade-in-up delay-3" id="hero-buttons">
-        <a href="contact.html" class="btn-primary" id="hero-cta-estimate">Get Free Estimate</a>
+        <a href="#" class="btn-primary" id="hero-cta-estimate" data-modal-target="quoteModal">Get Free Estimate</a>
         <a href="services.html" class="btn-secondary" id="hero-cta-services">Our Services</a>
       </div>
       <div class="hero-stats fade-in-up delay-4" id="hero-stats">
@@ -379,7 +380,7 @@
         <p id="cta-text">Contact us today for a free estimate. Serving Provo, Orem, Springville, Spanish Fork, Pleasant Grove, American Fork, and all of Utah County.</p>
         <div class="cta-buttons" id="cta-buttons">
           <a href="tel:8013777252" class="btn-primary" id="cta-phone-btn">Call (801) 377-7252 ☎</a>
-          <a href="contact.html" class="btn-secondary" id="cta-estimate-btn">Get Free Estimate</a>
+          <a href="#" class="btn-secondary" id="cta-estimate-btn" data-modal-target="quoteModal">Get Free Estimate</a>
         </div>
       </div>
     </div>
@@ -435,6 +436,314 @@
 
   <!-- Scroll to Top -->
   <button class="scroll-top" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+<!-- ============================================
+     CUSTOMER REGISTRATION MODAL
+     ============================================ -->
+<div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" tabindex="-1">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="registerModalTitle">🚗 Customer Registration</h3>
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="wizard-subtitle" style="text-align:left; margin-bottom:1.25rem;">Create your profile for streamlined estimates, repair tracking, and express service.</p>
+      
+      <div id="registerSuccessAlert" class="modal-alert modal-alert-success" style="display:none;">
+        <span>✓</span>
+        <div>
+          <strong>Registration successful!</strong> Your profile has been created. We look forward to servicing your vehicle.
+        </div>
+      </div>
+
+      <form id="customerRegistrationForm" novalidate>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regFirstName">First Name *</label>
+            <input type="text" id="regFirstName" name="firstName" class="form-control" required placeholder="Robin">
+          </div>
+          <div class="form-group">
+            <label for="regLastName">Last Name *</label>
+            <input type="text" id="regLastName" name="lastName" class="form-control" required placeholder="Roberts">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regPhone">Phone Number *</label>
+            <input type="tel" id="regPhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email Address *</label>
+            <input type="email" id="regEmail" name="email" class="form-control" required placeholder="name@example.com">
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; margin-bottom: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px;">Optional Vehicle Information</span>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regYear">Vehicle Year</label>
+            <input type="number" id="regYear" name="year" class="form-control" placeholder="e.g. 2022" min="1950" max="2030">
+          </div>
+          <div class="form-group">
+            <label for="regMake">Vehicle Make</label>
+            <input type="text" id="regMake" name="make" class="form-control" placeholder="e.g. Ford / Toyota">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regModel">Vehicle Model</label>
+            <input type="text" id="regModel" name="model" class="form-control" placeholder="e.g. F-150 / Camry">
+          </div>
+          <div class="form-group">
+            <label for="regVin">VIN Number</label>
+            <input type="text" id="regVin" name="vin" class="form-control" placeholder="17-character VIN" maxlength="17" style="text-transform:uppercase;">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="regSubmitBtn">Complete Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     FREE ESTIMATE FLOWCHART WIZARD MODAL
+     ============================================ -->
+<div class="modal-backdrop" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="quoteModalTitle" tabindex="-1">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="quoteModalTitle">⚡ Free Repair Estimate Request</h3>
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      
+      <!-- Progress Steps -->
+      <div class="wizard-progress">
+        <div class="wizard-progress-bar" id="wizardProgressBar" style="width: 0%;"></div>
+        <div class="wizard-step-node active" id="stepNode1">1</div>
+        <div class="wizard-step-node" id="stepNode2">2</div>
+        <div class="wizard-step-node" id="stepNode3">3</div>
+        <div class="wizard-step-node" id="stepNode4">4</div>
+      </div>
+
+      <div id="quoteSuccessAlert" class="modal-alert modal-alert-success" style="display:none;">
+        <span>✓</span>
+        <div>
+          <strong>Estimate Request Received!</strong> Thank you for choosing Dynamic Collision Repair. Our estimators will review your damage photos and contact you promptly.
+        </div>
+      </div>
+
+      <form id="quoteWizardForm" novalidate>
+        <!-- STEP 1: Insurance or Self-pay? -->
+        <div class="wizard-step-pane active" id="wizardStep1">
+          <div class="wizard-title">How will this repair be handled?</div>
+          <div class="wizard-subtitle">Select whether you are filing through insurance or self-paying.</div>
+          
+          <div class="flow-choice-grid">
+            <div class="flow-choice-card" data-choice-group="payType" data-choice-value="insurance" role="button" tabindex="0">
+              <div class="flow-choice-icon">📑</div>
+              <div class="flow-choice-label">Insurance?</div>
+              <div class="flow-choice-desc">Filing an insurance claim through your policy or another driver's policy.</div>
+            </div>
+
+            <div class="flow-choice-card" data-choice-group="payType" data-choice-value="selfpay" role="button" tabindex="0">
+              <div class="flow-choice-icon">💵</div>
+              <div class="flow-choice-label">Self-pay?</div>
+              <div class="flow-choice-desc">Paying out-of-pocket directly or getting private reimbursement.</div>
+            </div>
+          </div>
+          
+          <input type="hidden" id="flowPayType" name="payType" value="">
+
+          <div class="modal-actions" style="justify-content: flex-end;">
+            <button type="button" class="btn btn-primary" id="step1NextBtn" disabled>Next Step &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Branch Details (Insurance vs Self-Pay) -->
+        <div class="wizard-step-pane" id="wizardStep2">
+          <!-- Branch 2A: Insurance Details -->
+          <div id="branchInsurance" style="display:none;">
+            <div class="wizard-title">Insurance Claim Details</div>
+            <div class="wizard-subtitle">Tell us about the insurance provider and fault status.</div>
+
+            <div class="form-group">
+              <label for="insCompany">Which Insurance Company? *</label>
+              <input type="text" id="insCompany" name="insuranceCompany" class="form-control" placeholder="e.g. State Farm, Geico, Progressive, Bear River, etc.">
+            </div>
+
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label style="margin-bottom:0.6rem;">At fault or other party? *</label>
+              <div class="flow-choice-grid">
+                <div class="flow-choice-card" data-choice-group="insFault" data-choice-value="at-fault" role="button" tabindex="0">
+                  <div class="flow-choice-icon">🛡️</div>
+                  <div class="flow-choice-label">At Fault</div>
+                  <div class="flow-choice-desc">Claim filed on your own collision coverage.</div>
+                </div>
+                <div class="flow-choice-card" data-choice-group="insFault" data-choice-value="other-party" role="button" tabindex="0">
+                  <div class="flow-choice-icon">🚗💥</div>
+                  <div class="flow-choice-label">Other Party / Not at Fault</div>
+                  <div class="flow-choice-desc">Claim filed against the other driver's insurance.</div>
+                </div>
+              </div>
+              <input type="hidden" id="flowInsFault" name="insFault" value="">
+            </div>
+          </div>
+
+          <!-- Branch 2B: Self-pay Details -->
+          <div id="branchSelfpay" style="display:none;">
+            <div class="wizard-title">Self-Pay Details</div>
+            <div class="wizard-subtitle">Are you paying or is another party at fault?</div>
+
+            <div class="flow-choice-grid">
+              <div class="flow-choice-card" data-choice-group="selfpayFault" data-choice-value="i-am-paying" role="button" tabindex="0">
+                <div class="flow-choice-icon">👤</div>
+                <div class="flow-choice-label">I Am Paying</div>
+                <div class="flow-choice-desc">You will be paying directly for the repairs out of pocket.</div>
+              </div>
+              <div class="flow-choice-card" data-choice-group="selfpayFault" data-choice-value="another-party" role="button" tabindex="0">
+                <div class="flow-choice-icon">👥</div>
+                <div class="flow-choice-label">Another Party at Fault</div>
+                <div class="flow-choice-desc">Another individual is covering or reimbursing the repair costs.</div>
+              </div>
+            </div>
+            <input type="hidden" id="flowSelfpayFault" name="selfpayFault" value="">
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="step2BackBtn">&larr; Back</button>
+            <button type="button" class="btn btn-primary" id="step2NextBtn" disabled>Next Step &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Info Form -->
+        <div class="wizard-step-pane" id="wizardStep3">
+          <div class="wizard-title">Customer Contact Information</div>
+          <div class="wizard-subtitle">Where should we deliver your estimate and quote details?</div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="quoteFirstName">First Name *</label>
+              <input type="text" id="quoteFirstName" name="firstName" class="form-control" required placeholder="First name">
+            </div>
+            <div class="form-group">
+              <label for="quoteLastName">Last Name *</label>
+              <input type="text" id="quoteLastName" name="lastName" class="form-control" required placeholder="Last name">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="quotePhone">Phone Number *</label>
+              <input type="tel" id="quotePhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
+            </div>
+            <div class="form-group">
+              <label for="quoteEmail">Email Address *</label>
+              <input type="email" id="quoteEmail" name="email" class="form-control" required placeholder="your@email.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="quoteNotes">Repair Notes / Description (Optional)</label>
+            <textarea id="quoteNotes" name="notes" class="form-control" rows="3" placeholder="Briefly describe what happened or any specific concerns..."></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="step3BackBtn">&larr; Back</button>
+            <button type="button" class="btn btn-primary" id="step3NextBtn">Next: Photos & VIN &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Photo Uploads & VIN -->
+        <div class="wizard-step-pane" id="wizardStep4">
+          <div class="wizard-title">Vehicle VIN & Damage Photos</div>
+          <div class="wizard-subtitle">Upload clear photos to help us produce a precise estimate.</div>
+
+          <div class="form-group">
+            <label for="quoteVin">Vehicle VIN # *</label>
+            <input type="text" id="quoteVin" name="vin" class="form-control" required placeholder="17-character VIN (check door jamb or dashboard)" maxlength="17" style="text-transform:uppercase;">
+            <div class="form-help">The Vehicle Identification Number ensures exact parts pricing and paint code verification.</div>
+          </div>
+
+          <!-- Damage Close-ups (2-3) -->
+          <div class="photo-guide-section">
+            <div class="photo-guide-title">
+              <span>📸 Damage Close-Up Angles (2–3 recommended)</span>
+            </div>
+            <div class="photo-slots-grid">
+              <div class="photo-slot" data-slot="close-up">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">🔍</span>
+                <span class="slot-label">Close-Up</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+              <div class="photo-slot" data-slot="close-up-right">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">📐</span>
+                <span class="slot-label">Right Angle</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+              <div class="photo-slot" data-slot="close-up-left">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">📐</span>
+                <span class="slot-label">Left Angle</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Corners -->
+          <div class="photo-guide-section">
+            <div class="photo-guide-title">
+              <span>🔄 4 Corners of Vehicle</span>
+            </div>
+            <div class="photo-slots-grid">
+              <div class="photo-slot" data-slot="corner-fl">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">🚗</span>
+                <span class="slot-label">Front-Left</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+              <div class="photo-slot" data-slot="corner-fr">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">🚗</span>
+                <span class="slot-label">Front-Right</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+              <div class="photo-slot" data-slot="corner-rl">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">🚗</span>
+                <span class="slot-label">Rear-Left</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+              <div class="photo-slot" data-slot="corner-rr">
+                <input type="file" accept="image/*" class="slot-file-input" style="display:none;">
+                <span style="font-size:1.5rem;">🚗</span>
+                <span class="slot-label">Rear-Right</span>
+                <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="step4BackBtn">&larr; Back</button>
+            <button type="submit" class="btn btn-primary" id="quoteSubmitBtn">Submit Estimate Request</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
 
   <!-- Main Script -->
   <script src="js/main.js"></script>
