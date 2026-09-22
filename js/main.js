@@ -451,379 +451,452 @@ function initModals() {
    Quote Request Interactive Flowchart Wizard
    ============================================ */
 function initQuoteWizard() {
-  const wizardForm = document.getElementById('quoteWizardForm');
-  if (!wizardForm) return;
+  function setupWizardInstance(cfg) {
+    const wizardForm = cfg.form;
+    if (!wizardForm) return;
 
-  const quoteModal = document.getElementById('quoteModal');
-  const progressBar = document.getElementById('wizardProgressBar');
-  const quoteSuccessAlert = document.getElementById('quoteSuccessAlert');
+    const modal = cfg.modal;
+    const progressBar = cfg.progressBar;
+    const successAlert = cfg.successAlert;
+    const steps = cfg.steps;
+    const stepNodes = cfg.stepNodes;
+    const choiceAttr = cfg.choiceAttr;
 
-  let currentStep = 1;
-  const totalSteps = 4;
+    let currentStep = 1;
+    const totalSteps = 4;
 
-  const steps = {
-    1: document.getElementById('wizardStep1'),
-    2: document.getElementById('wizardStep2'),
-    3: document.getElementById('wizardStep3'),
-    4: document.getElementById('wizardStep4')
-  };
+    const wizardState = {
+      payType: '',
+      insuranceCompany: '',
+      insFault: '',
+      selfpayFault: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      notes: '',
+      vin: '',
+      photos: {}
+    };
 
-  const stepNodes = {
-    1: document.getElementById('stepNode1'),
-    2: document.getElementById('stepNode2'),
-    3: document.getElementById('stepNode3'),
-    4: document.getElementById('stepNode4')
-  };
+    const updateProgressUI = () => {
+      const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      if (progressBar) progressBar.style.width = `${progressPercent}%`;
 
-  // State object tracking selections
-  const wizardState = {
-    payType: '',
-    insuranceCompany: '',
-    insFault: '',
-    selfpayFault: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    notes: '',
-    vin: '',
-    photos: {}
-  };
-
-  const updateProgressUI = () => {
-    const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
-    if (progressBar) progressBar.style.width = `${progressPercent}%`;
-
-    for (let i = 1; i <= totalSteps; i++) {
-      const node = stepNodes[i];
-      if (!node) continue;
-      if (i < currentStep) {
-        node.className = 'wizard-step-node completed';
-        node.innerHTML = '✓';
-      } else if (i === currentStep) {
-        node.className = 'wizard-step-node active';
-        node.textContent = i;
-      } else {
-        node.className = 'wizard-step-node';
-        node.textContent = i;
-      }
-    }
-
-    Object.keys(steps).forEach((stepNum) => {
-      const pane = steps[stepNum];
-      if (pane) {
-        if (parseInt(stepNum) === currentStep) {
-          pane.classList.add('active');
+      for (let i = 1; i <= totalSteps; i++) {
+        const node = stepNodes[i];
+        if (!node) continue;
+        if (i < currentStep) {
+          node.className = 'wizard-step-node completed';
+          node.innerHTML = '✓';
+        } else if (i === currentStep) {
+          node.className = 'wizard-step-node active';
+          node.textContent = i;
         } else {
-          pane.classList.remove('active');
+          node.className = 'wizard-step-node';
+          node.textContent = i;
         }
       }
-    });
 
-    const modalWindow = quoteModal ? quoteModal.querySelector('.modal-window') : null;
-    if (modalWindow) modalWindow.scrollTop = 0;
-  };
-
-  // --- Step 1: Payment Type (Insurance vs Self-Pay) ---
-  const step1NextBtn = document.getElementById('step1NextBtn');
-  const flowPayTypeInput = document.getElementById('flowPayType');
-  const payTypeCards = document.querySelectorAll('[data-choice-group="payType"]');
-
-  payTypeCards.forEach((card) => {
-    const selectCard = () => {
-      payTypeCards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const val = card.getAttribute('data-choice-value');
-      wizardState.payType = val;
-      if (flowPayTypeInput) flowPayTypeInput.value = val;
-      if (step1NextBtn) step1NextBtn.disabled = false;
-    };
-
-    card.addEventListener('click', selectCard);
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectCard();
-      }
-    });
-  });
-
-  if (step1NextBtn) {
-    step1NextBtn.addEventListener('click', () => {
-      if (!wizardState.payType) return;
-      currentStep = 2;
-      setupStep2Branch();
-      updateProgressUI();
-    });
-  }
-
-  // --- Step 2: Branch Setup ---
-  const branchInsurance = document.getElementById('branchInsurance');
-  const branchSelfpay = document.getElementById('branchSelfpay');
-  const step2NextBtn = document.getElementById('step2NextBtn');
-  const step2BackBtn = document.getElementById('step2BackBtn');
-  const insCompanyInput = document.getElementById('insCompany');
-  const insFaultCards = document.querySelectorAll('[data-choice-group="insFault"]');
-  const selfpayCards = document.querySelectorAll('[data-choice-group="selfpayFault"]');
-
-  function setupStep2Branch() {
-    if (wizardState.payType === 'insurance') {
-      if (branchInsurance) branchInsurance.style.display = 'block';
-      if (branchSelfpay) branchSelfpay.style.display = 'none';
-      checkStep2InsuranceValidity();
-    } else {
-      if (branchInsurance) branchInsurance.style.display = 'none';
-      if (branchSelfpay) branchSelfpay.style.display = 'block';
-      checkStep2SelfpayValidity();
-    }
-  }
-
-  function checkStep2InsuranceValidity() {
-    const hasCompany = insCompanyInput && insCompanyInput.value.trim().length > 0;
-    const hasFault = !!wizardState.insFault;
-    if (step2NextBtn) {
-      step2NextBtn.disabled = !(hasCompany && hasFault);
-    }
-  }
-
-  function checkStep2SelfpayValidity() {
-    if (step2NextBtn) {
-      step2NextBtn.disabled = !wizardState.selfpayFault;
-    }
-  }
-
-  if (insCompanyInput) {
-    insCompanyInput.addEventListener('input', () => {
-      wizardState.insuranceCompany = insCompanyInput.value.trim();
-      checkStep2InsuranceValidity();
-    });
-  }
-
-  insFaultCards.forEach((card) => {
-    const selectCard = () => {
-      insFaultCards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const val = card.getAttribute('data-choice-value');
-      wizardState.insFault = val;
-      const input = document.getElementById('flowInsFault');
-      if (input) input.value = val;
-      checkStep2InsuranceValidity();
-    };
-    card.addEventListener('click', selectCard);
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectCard();
-      }
-    });
-  });
-
-  selfpayCards.forEach((card) => {
-    const selectCard = () => {
-      selfpayCards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const val = card.getAttribute('data-choice-value');
-      wizardState.selfpayFault = val;
-      const input = document.getElementById('flowSelfpayFault');
-      if (input) input.value = val;
-      checkStep2SelfpayValidity();
-    };
-    card.addEventListener('click', selectCard);
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectCard();
-      }
-    });
-  });
-
-  if (step2BackBtn) {
-    step2BackBtn.addEventListener('click', () => {
-      currentStep = 1;
-      updateProgressUI();
-    });
-  }
-
-  if (step2NextBtn) {
-    step2NextBtn.addEventListener('click', () => {
-      currentStep = 3;
-      updateProgressUI();
-    });
-  }
-
-  // --- Step 3: Info Form ---
-  const step3BackBtn = document.getElementById('step3BackBtn');
-  const step3NextBtn = document.getElementById('step3NextBtn');
-  const quoteFirstName = document.getElementById('quoteFirstName');
-  const quoteLastName = document.getElementById('quoteLastName');
-  const quotePhone = document.getElementById('quotePhone');
-  const quoteEmail = document.getElementById('quoteEmail');
-  const quoteNotes = document.getElementById('quoteNotes');
-
-  if (step3BackBtn) {
-    step3BackBtn.addEventListener('click', () => {
-      currentStep = 2;
-      updateProgressUI();
-    });
-  }
-
-  if (step3NextBtn) {
-    step3NextBtn.addEventListener('click', () => {
-      let valid = true;
-      [quoteFirstName, quoteLastName, quotePhone].forEach((input) => {
-        if (input && !input.value.trim()) {
-          input.classList.add('error');
-          valid = false;
-        } else if (input) {
-          input.classList.remove('error');
-        }
-      });
-
-      if (quoteEmail && (!quoteEmail.value.trim() || !isValidEmail(quoteEmail.value))) {
-        quoteEmail.classList.add('error');
-        valid = false;
-      } else if (quoteEmail) {
-        quoteEmail.classList.remove('error');
-      }
-
-      if (!valid) return;
-
-      wizardState.firstName = quoteFirstName.value.trim();
-      wizardState.lastName = quoteLastName.value.trim();
-      wizardState.phone = quotePhone.value.trim();
-      wizardState.email = quoteEmail.value.trim();
-      wizardState.notes = quoteNotes ? quoteNotes.value.trim() : '';
-
-      currentStep = 4;
-      updateProgressUI();
-    });
-  }
-
-  // --- Step 4: Photo Uploads & VIN ---
-  const step4BackBtn = document.getElementById('step4BackBtn');
-  const quoteVin = document.getElementById('quoteVin');
-  const quoteSubmitBtn = document.getElementById('quoteSubmitBtn');
-  const photoSlots = document.querySelectorAll('.photo-slot');
-
-  if (step4BackBtn) {
-    step4BackBtn.addEventListener('click', () => {
-      currentStep = 3;
-      updateProgressUI();
-    });
-  }
-
-  // Setup photo slots
-  photoSlots.forEach((slot) => {
-    const slotKey = slot.getAttribute('data-slot');
-    const fileInput = slot.querySelector('.slot-file-input');
-    const removeBtn = slot.querySelector('.slot-remove');
-
-    slot.addEventListener('click', (e) => {
-      if (e.target === removeBtn || e.target.closest('.slot-remove')) return;
-      if (fileInput) fileInput.click();
-    });
-
-    if (fileInput) {
-      fileInput.addEventListener('change', () => {
-        const file = fileInput.files && fileInput.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (re) => {
-          wizardState.photos[slotKey] = {
-            name: file.name,
-            size: file.size,
-            dataUrl: re.target.result
-          };
-
-          let img = slot.querySelector('img');
-          if (!img) {
-            img = document.createElement('img');
-            slot.appendChild(img);
+      Object.keys(steps).forEach((stepNum) => {
+        const pane = steps[stepNum];
+        if (pane) {
+          if (parseInt(stepNum) === currentStep) {
+            pane.classList.add('active');
+          } else {
+            pane.classList.remove('active');
           }
-          img.src = re.target.result;
-          slot.classList.add('has-image');
-        };
-        reader.readAsDataURL(file);
+        }
       });
-    }
 
-    if (removeBtn) {
-      removeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        delete wizardState.photos[slotKey];
-        if (fileInput) fileInput.value = '';
-        const img = slot.querySelector('img');
-        if (img) img.remove();
-        slot.classList.remove('has-image');
-      });
-    }
-  });
-
-  // Final Form Submission
-  wizardForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (quoteVin && !quoteVin.value.trim()) {
-      quoteVin.classList.add('error');
-      quoteVin.focus();
-      return;
-    } else if (quoteVin) {
-      quoteVin.classList.remove('error');
-      wizardState.vin = quoteVin.value.trim();
-    }
-
-    const payload = {
-      ...wizardState,
-      submittedAt: new Date().toISOString()
+      if (modal) {
+        const modalWindow = modal.querySelector('.modal-window');
+        if (modalWindow) modalWindow.scrollTop = 0;
+      } else {
+        window.scrollTo({ top: wizardForm.offsetTop - 100, behavior: 'smooth' });
+      }
     };
 
-    try {
-      const stored = JSON.parse(localStorage.getItem('dynamic_collision_quotes') || '[]');
-      // Store metadata without excessive base64 weight in localStorage
-      const lightPayload = {
-        ...payload,
-        photos: Object.keys(wizardState.photos).map(k => ({
-          slot: k,
-          fileName: wizardState.photos[k].name,
-          fileSize: wizardState.photos[k].size
-        }))
+    // --- Step 1: Payment Type ---
+    const step1NextBtn = cfg.step1NextBtn;
+    const payTypeInput = cfg.payTypeInput;
+    const payTypeCards = wizardForm.querySelectorAll(`[${choiceAttr}="payType"]`);
+
+    payTypeCards.forEach((card) => {
+      const selectCard = () => {
+        payTypeCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const val = card.getAttribute('data-choice-value');
+        wizardState.payType = val;
+        if (payTypeInput) payTypeInput.value = val;
+        if (step1NextBtn) step1NextBtn.disabled = false;
       };
-      stored.push(lightPayload);
-      localStorage.setItem('dynamic_collision_quotes', JSON.stringify(stored));
-    } catch (err) {
-      console.warn('LocalStorage error:', err);
-    }
 
-    if (quoteSubmitBtn) {
-      quoteSubmitBtn.textContent = 'Estimate Submitted! ✓';
-      quoteSubmitBtn.disabled = true;
-    }
-
-    if (quoteSuccessAlert) {
-      quoteSuccessAlert.style.display = 'flex';
-    }
-
-    setTimeout(() => {
-      wizardForm.reset();
-      photoSlots.forEach((slot) => {
-        const img = slot.querySelector('img');
-        if (img) img.remove();
-        slot.classList.remove('has-image');
+      card.addEventListener('click', selectCard);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectCard();
+        }
       });
-      payTypeCards.forEach(c => c.classList.remove('selected'));
-      insFaultCards.forEach(c => c.classList.remove('selected'));
-      selfpayCards.forEach(c => c.classList.remove('selected'));
-      if (quoteSuccessAlert) quoteSuccessAlert.style.display = 'none';
-      if (quoteSubmitBtn) {
-        quoteSubmitBtn.textContent = 'Submit Estimate Request';
-        quoteSubmitBtn.disabled = false;
+    });
+
+    if (step1NextBtn) {
+      step1NextBtn.addEventListener('click', () => {
+        if (!wizardState.payType) return;
+        currentStep = 2;
+        setupStep2Branch();
+        updateProgressUI();
+      });
+    }
+
+    // --- Step 2: Branch Setup ---
+    const branchInsurance = cfg.branchInsurance;
+    const branchSelfpay = cfg.branchSelfpay;
+    const step2NextBtn = cfg.step2NextBtn;
+    const step2BackBtn = cfg.step2BackBtn;
+    const insCompanyInput = cfg.insCompanyInput;
+    const insFaultCards = wizardForm.querySelectorAll(`[${choiceAttr}="insFault"]`);
+    const selfpayCards = wizardForm.querySelectorAll(`[${choiceAttr}="selfpayFault"]`);
+
+    function setupStep2Branch() {
+      if (wizardState.payType === 'insurance') {
+        if (branchInsurance) branchInsurance.style.display = 'block';
+        if (branchSelfpay) branchSelfpay.style.display = 'none';
+        checkStep2InsuranceValidity();
+      } else {
+        if (branchInsurance) branchInsurance.style.display = 'none';
+        if (branchSelfpay) branchSelfpay.style.display = 'block';
+        checkStep2SelfpayValidity();
       }
-      currentStep = 1;
-      updateProgressUI();
-      if (quoteModal) quoteModal.classList.remove('active');
-      document.body.style.overflow = '';
-    }, 4000);
+    }
+
+    function checkStep2InsuranceValidity() {
+      const hasCompany = insCompanyInput && insCompanyInput.value.trim().length > 0;
+      const hasFault = !!wizardState.insFault;
+      if (step2NextBtn) {
+        step2NextBtn.disabled = !(hasCompany && hasFault);
+      }
+    }
+
+    function checkStep2SelfpayValidity() {
+      if (step2NextBtn) {
+        step2NextBtn.disabled = !wizardState.selfpayFault;
+      }
+    }
+
+    if (insCompanyInput) {
+      insCompanyInput.addEventListener('input', () => {
+        wizardState.insuranceCompany = insCompanyInput.value.trim();
+        checkStep2InsuranceValidity();
+      });
+    }
+
+    insFaultCards.forEach((card) => {
+      const selectCard = () => {
+        insFaultCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const val = card.getAttribute('data-choice-value');
+        wizardState.insFault = val;
+        if (cfg.insFaultInput) cfg.insFaultInput.value = val;
+        checkStep2InsuranceValidity();
+      };
+      card.addEventListener('click', selectCard);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectCard();
+        }
+      });
+    });
+
+    selfpayCards.forEach((card) => {
+      const selectCard = () => {
+        selfpayCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const val = card.getAttribute('data-choice-value');
+        wizardState.selfpayFault = val;
+        if (cfg.selfpayFaultInput) cfg.selfpayFaultInput.value = val;
+        checkStep2SelfpayValidity();
+      };
+      card.addEventListener('click', selectCard);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectCard();
+        }
+      });
+    });
+
+    if (step2BackBtn) {
+      step2BackBtn.addEventListener('click', () => {
+        currentStep = 1;
+        updateProgressUI();
+      });
+    }
+
+    if (step2NextBtn) {
+      step2NextBtn.addEventListener('click', () => {
+        currentStep = 3;
+        updateProgressUI();
+      });
+    }
+
+    // --- Step 3: Info Form ---
+    const step3BackBtn = cfg.step3BackBtn;
+    const step3NextBtn = cfg.step3NextBtn;
+    const firstNameInput = cfg.firstNameInput;
+    const lastNameInput = cfg.lastNameInput;
+    const phoneInput = cfg.phoneInput;
+    const emailInput = cfg.emailInput;
+    const notesInput = cfg.notesInput;
+
+    if (step3BackBtn) {
+      step3BackBtn.addEventListener('click', () => {
+        currentStep = 2;
+        updateProgressUI();
+      });
+    }
+
+    if (step3NextBtn) {
+      step3NextBtn.addEventListener('click', () => {
+        let valid = true;
+        [firstNameInput, lastNameInput, phoneInput].forEach((input) => {
+          if (input && !input.value.trim()) {
+            input.classList.add('error');
+            valid = false;
+          } else if (input) {
+            input.classList.remove('error');
+          }
+        });
+
+        if (emailInput && (!emailInput.value.trim() || !isValidEmail(emailInput.value))) {
+          emailInput.classList.add('error');
+          valid = false;
+        } else if (emailInput) {
+          emailInput.classList.remove('error');
+        }
+
+        if (!valid) return;
+
+        wizardState.firstName = firstNameInput ? firstNameInput.value.trim() : '';
+        wizardState.lastName = lastNameInput ? lastNameInput.value.trim() : '';
+        wizardState.phone = phoneInput ? phoneInput.value.trim() : '';
+        wizardState.email = emailInput ? emailInput.value.trim() : '';
+        wizardState.notes = notesInput ? notesInput.value.trim() : '';
+
+        currentStep = 4;
+        updateProgressUI();
+      });
+    }
+
+    // --- Step 4: Photo Uploads & VIN ---
+    const step4BackBtn = cfg.step4BackBtn;
+    const vinInput = cfg.vinInput;
+    const submitBtn = cfg.submitBtn;
+    const photoSlots = wizardForm.querySelectorAll('.photo-slot');
+
+    if (step4BackBtn) {
+      step4BackBtn.addEventListener('click', () => {
+        currentStep = 3;
+        updateProgressUI();
+      });
+    }
+
+    photoSlots.forEach((slot) => {
+      const slotKey = slot.getAttribute('data-slot');
+      const fileInput = slot.querySelector('.slot-file-input');
+      const removeBtn = slot.querySelector('.slot-remove');
+
+      slot.addEventListener('click', (e) => {
+        if (e.target === removeBtn || e.target.closest('.slot-remove')) return;
+        if (fileInput) fileInput.click();
+      });
+
+      if (fileInput) {
+        fileInput.addEventListener('change', () => {
+          const file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            wizardState.photos[slotKey] = {
+              name: file.name,
+              size: file.size,
+              dataUrl: re.target.result
+            };
+
+            let img = slot.querySelector('img');
+            if (!img) {
+              img = document.createElement('img');
+              slot.appendChild(img);
+            }
+            img.src = re.target.result;
+            slot.classList.add('has-image');
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (removeBtn) {
+        removeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          delete wizardState.photos[slotKey];
+          if (fileInput) fileInput.value = '';
+          const img = slot.querySelector('img');
+          if (img) img.remove();
+          slot.classList.remove('has-image');
+        });
+      }
+    });
+
+    // Final Form Submission
+    wizardForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (vinInput && !vinInput.value.trim()) {
+        vinInput.classList.add('error');
+        vinInput.focus();
+        return;
+      } else if (vinInput) {
+        vinInput.classList.remove('error');
+        wizardState.vin = vinInput.value.trim();
+      }
+
+      const payload = {
+        ...wizardState,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        const stored = JSON.parse(localStorage.getItem('dynamic_collision_quotes') || '[]');
+        const lightPayload = {
+          ...payload,
+          photos: Object.keys(wizardState.photos).map(k => ({
+            slot: k,
+            fileName: wizardState.photos[k].name,
+            fileSize: wizardState.photos[k].size
+          }))
+        };
+        stored.push(lightPayload);
+        localStorage.setItem('dynamic_collision_quotes', JSON.stringify(stored));
+      } catch (err) {
+        console.warn('LocalStorage error:', err);
+      }
+
+      if (submitBtn) {
+        submitBtn.textContent = 'Estimate Submitted! ✓';
+        submitBtn.disabled = true;
+      }
+
+      if (successAlert) {
+        successAlert.style.display = 'flex';
+      }
+
+      setTimeout(() => {
+        wizardForm.reset();
+        photoSlots.forEach((slot) => {
+          const img = slot.querySelector('img');
+          if (img) img.remove();
+          slot.classList.remove('has-image');
+        });
+        payTypeCards.forEach(c => c.classList.remove('selected'));
+        insFaultCards.forEach(c => c.classList.remove('selected'));
+        selfpayCards.forEach(c => c.classList.remove('selected'));
+        if (successAlert) successAlert.style.display = 'none';
+        if (submitBtn) {
+          submitBtn.textContent = 'Submit Estimate Request';
+          submitBtn.disabled = false;
+        }
+        currentStep = 1;
+        updateProgressUI();
+        if (modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }, 4000);
+    });
+  }
+
+  // 1. Dedicated Estimate Page (estimate.html)
+  setupWizardInstance({
+    form: document.getElementById('pageQuoteWizardForm'),
+    modal: null,
+    progressBar: document.getElementById('pageWizardProgressBar'),
+    successAlert: document.getElementById('pageQuoteSuccessAlert'),
+    steps: {
+      1: document.getElementById('pageWizardStep1'),
+      2: document.getElementById('pageWizardStep2'),
+      3: document.getElementById('pageWizardStep3'),
+      4: document.getElementById('pageWizardStep4')
+    },
+    stepNodes: {
+      1: document.getElementById('pageStepNode1'),
+      2: document.getElementById('pageStepNode2'),
+      3: document.getElementById('pageStepNode3'),
+      4: document.getElementById('pageStepNode4')
+    },
+    choiceAttr: 'data-page-choice-group',
+    payTypeInput: document.getElementById('pageFlowPayType'),
+    step1NextBtn: document.getElementById('pageStep1NextBtn'),
+    branchInsurance: document.getElementById('pageBranchInsurance'),
+    branchSelfpay: document.getElementById('pageBranchSelfpay'),
+    insCompanyInput: document.getElementById('pageInsCompany'),
+    insFaultInput: document.getElementById('pageFlowInsFault'),
+    selfpayFaultInput: document.getElementById('pageFlowSelfpayFault'),
+    step2NextBtn: document.getElementById('pageStep2NextBtn'),
+    step2BackBtn: document.getElementById('pageStep2BackBtn'),
+    firstNameInput: document.getElementById('pageQuoteFirstName'),
+    lastNameInput: document.getElementById('pageQuoteLastName'),
+    phoneInput: document.getElementById('pageQuotePhone'),
+    emailInput: document.getElementById('pageQuoteEmail'),
+    notesInput: document.getElementById('pageQuoteNotes'),
+    step3NextBtn: document.getElementById('pageStep3NextBtn'),
+    step3BackBtn: document.getElementById('pageStep3BackBtn'),
+    vinInput: document.getElementById('pageQuoteVin'),
+    submitBtn: document.getElementById('pageQuoteSubmitBtn'),
+    step4BackBtn: document.getElementById('pageStep4BackBtn')
+  });
+
+  // 2. Modal-based wizard fallback (if present on any page)
+  setupWizardInstance({
+    form: document.getElementById('quoteWizardForm'),
+    modal: document.getElementById('quoteModal'),
+    progressBar: document.getElementById('wizardProgressBar'),
+    successAlert: document.getElementById('quoteSuccessAlert'),
+    steps: {
+      1: document.getElementById('wizardStep1'),
+      2: document.getElementById('wizardStep2'),
+      3: document.getElementById('wizardStep3'),
+      4: document.getElementById('wizardStep4')
+    },
+    stepNodes: {
+      1: document.getElementById('stepNode1'),
+      2: document.getElementById('stepNode2'),
+      3: document.getElementById('stepNode3'),
+      4: document.getElementById('stepNode4')
+    },
+    choiceAttr: 'data-choice-group',
+    payTypeInput: document.getElementById('flowPayType'),
+    step1NextBtn: document.getElementById('step1NextBtn'),
+    branchInsurance: document.getElementById('branchInsurance'),
+    branchSelfpay: document.getElementById('branchSelfpay'),
+    insCompanyInput: document.getElementById('insCompany'),
+    insFaultInput: document.getElementById('flowInsFault'),
+    selfpayFaultInput: document.getElementById('flowSelfpayFault'),
+    step2NextBtn: document.getElementById('step2NextBtn'),
+    step2BackBtn: document.getElementById('step2BackBtn'),
+    firstNameInput: document.getElementById('quoteFirstName'),
+    lastNameInput: document.getElementById('quoteLastName'),
+    phoneInput: document.getElementById('quotePhone'),
+    emailInput: document.getElementById('quoteEmail'),
+    notesInput: document.getElementById('quoteNotes'),
+    step3NextBtn: document.getElementById('step3NextBtn'),
+    step3BackBtn: document.getElementById('step3BackBtn'),
+    vinInput: document.getElementById('quoteVin'),
+    submitBtn: document.getElementById('quoteSubmitBtn'),
+    step4BackBtn: document.getElementById('step4BackBtn')
   });
 }
+
 
