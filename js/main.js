@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initParallax();
   initModals();
   initQuoteWizard();
+  initEstimateForm();
 });
 
 /* ============================================
@@ -896,6 +897,265 @@ function initQuoteWizard() {
     vinInput: document.getElementById('quoteVin'),
     submitBtn: document.getElementById('quoteSubmitBtn'),
     step4BackBtn: document.getElementById('step4BackBtn')
+  });
+}
+
+/* ============================================
+   Dedicated Estimate Form (estimate.html)
+   ============================================ */
+function initEstimateForm() {
+  const form = document.getElementById('estimateForm');
+  if (!form) return;
+
+  // 1. Repair handling checkboxes ("My Insurance", "Self-Pay", "Both")
+  const chkMyInsurance = document.getElementById('chkMyInsurance');
+  const chkSelfPay = document.getElementById('chkSelfPay');
+  const chkBoth = document.getElementById('chkBoth');
+  const checkCards = form.querySelectorAll('.custom-checkbox-card');
+
+  function syncCheckboxCards() {
+    checkCards.forEach((card) => {
+      const input = card.querySelector('input[type="checkbox"]');
+      if (input && input.checked) {
+        card.classList.add('checked');
+      } else {
+        card.classList.remove('checked');
+      }
+    });
+  }
+
+  if (chkBoth) {
+    chkBoth.addEventListener('change', () => {
+      if (chkBoth.checked) {
+        if (chkMyInsurance) chkMyInsurance.checked = true;
+        if (chkSelfPay) chkSelfPay.checked = true;
+      }
+      syncCheckboxCards();
+    });
+  }
+
+  [chkMyInsurance, chkSelfPay].forEach((chk) => {
+    if (chk) {
+      chk.addEventListener('change', () => {
+        if (!chk.checked && chkBoth && chkBoth.checked) {
+          chkBoth.checked = false;
+        } else if (chkMyInsurance && chkSelfPay && chkMyInsurance.checked && chkSelfPay.checked && chkBoth) {
+          chkBoth.checked = true;
+        }
+        syncCheckboxCards();
+      });
+    }
+  });
+
+  syncCheckboxCards();
+
+  // 2. Insurance company dropdown paired with text input
+  const insuranceDropdown = document.getElementById('insuranceDropdown');
+  const insuranceCompanyText = document.getElementById('insuranceCompanyText');
+
+  if (insuranceDropdown && insuranceCompanyText) {
+    insuranceDropdown.addEventListener('change', () => {
+      const selected = insuranceDropdown.value;
+      if (selected) {
+        insuranceCompanyText.value = selected;
+        insuranceCompanyText.classList.remove('error');
+      }
+    });
+
+    insuranceCompanyText.addEventListener('input', () => {
+      const val = insuranceCompanyText.value.trim().toLowerCase();
+      let matched = false;
+      Array.from(insuranceDropdown.options).forEach((opt) => {
+        if (opt.value && opt.value.toLowerCase() === val) {
+          insuranceDropdown.value = opt.value;
+          matched = true;
+        }
+      });
+      if (!matched && insuranceDropdown.value !== '') {
+        insuranceDropdown.value = '';
+      }
+    });
+  }
+
+  // 3. Claim policy radio cards (Own Policy, Another Driver's Policy, Not Applicable)
+  const radioCards = form.querySelectorAll('.custom-radio-card');
+  function syncRadioCards() {
+    radioCards.forEach((card) => {
+      const input = card.querySelector('input[type="radio"]');
+      if (input && input.checked) {
+        card.classList.add('checked');
+      } else {
+        card.classList.remove('checked');
+      }
+    });
+  }
+
+  radioCards.forEach((card) => {
+    const input = card.querySelector('input[type="radio"]');
+    if (input) {
+      input.addEventListener('change', syncRadioCards);
+    }
+  });
+  syncRadioCards();
+
+  // 4. Damage Photo slots (.jpeg, .png)
+  const photoSlots = form.querySelectorAll('.photo-slot');
+  const photosData = {};
+
+  photoSlots.forEach((slot) => {
+    const slotKey = slot.getAttribute('data-slot');
+    const fileInput = slot.querySelector('.slot-file-input');
+    const removeBtn = slot.querySelector('.slot-remove');
+
+    slot.addEventListener('click', (e) => {
+      if (e.target === removeBtn || removeBtn.contains(e.target)) return;
+      if (fileInput) fileInput.click();
+    });
+
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        // Check if image (.jpeg, .jpg, .png)
+        if (!file.type.match(/^image\/(jpeg|png|jpg)$/) && !file.name.match(/\.(jpe?g|png)$/i)) {
+          alert('Please upload a .jpeg or .png image file.');
+          fileInput.value = '';
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          photosData[slotKey] = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            dataUrl: e.target.result
+          };
+
+          // Render thumbnail preview
+          let existingImg = slot.querySelector('img.slot-preview-thumb');
+          if (!existingImg) {
+            existingImg = document.createElement('img');
+            existingImg.className = 'slot-preview-thumb';
+            slot.appendChild(existingImg);
+          }
+          existingImg.src = e.target.result;
+          existingImg.alt = `${slotKey} photo preview`;
+          slot.classList.add('has-image');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (removeBtn) {
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (fileInput) fileInput.value = '';
+        delete photosData[slotKey];
+        const previewImg = slot.querySelector('img.slot-preview-thumb');
+        if (previewImg) previewImg.remove();
+        slot.classList.remove('has-image');
+      });
+    }
+  });
+
+  // 5. Form submission & Clickable Save Button
+  const saveBtn = document.getElementById('estimateSaveBtn');
+  const successAlert = document.getElementById('estimateSuccessAlert');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('estimateFirstName');
+    const lastName = document.getElementById('estimateLastName');
+    const phone = document.getElementById('estimatePhone');
+    const email = document.getElementById('estimateEmail');
+    const vin = document.getElementById('estimateVin');
+    const vehicle = document.getElementById('estimateVehicle');
+    const notes = document.getElementById('estimateNotes');
+
+    let valid = true;
+    let firstInvalid = null;
+
+    [firstName, lastName, phone, vin].forEach((input) => {
+      if (input && !input.value.trim()) {
+        input.classList.add('error');
+        valid = false;
+        if (!firstInvalid) firstInvalid = input;
+      } else if (input) {
+        input.classList.remove('error');
+      }
+    });
+
+    if (email) {
+      if (!email.value.trim() || !isValidEmail(email.value.trim())) {
+        email.classList.add('error');
+        valid = false;
+        if (!firstInvalid) firstInvalid = email;
+      } else {
+        email.classList.remove('error');
+      }
+    }
+
+    if (!valid) {
+      if (firstInvalid) {
+        firstInvalid.focus();
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    // Determine chosen repair handling
+    const handlingChoices = [];
+    if (chkMyInsurance && chkMyInsurance.checked) handlingChoices.push('My Insurance');
+    if (chkSelfPay && chkSelfPay.checked) handlingChoices.push('Self-Pay');
+    if (chkBoth && chkBoth.checked && !handlingChoices.includes('Both')) handlingChoices.push('Both');
+
+    // Selected policy radio
+    const selectedPolicy = form.querySelector('input[name="claimPolicyType"]:checked');
+
+    const estimateRecord = {
+      repairHandling: handlingChoices.length > 0 ? handlingChoices : ['My Insurance'],
+      insuranceCompany: insuranceCompanyText ? insuranceCompanyText.value.trim() : '',
+      policyType: selectedPolicy ? selectedPolicy.value : 'Own Policy',
+      customer: {
+        firstName: firstName ? firstName.value.trim() : '',
+        lastName: lastName ? lastName.value.trim() : '',
+        phone: phone ? phone.value.trim() : '',
+        email: email ? email.value.trim() : '',
+        vin: vin ? vin.value.trim().toUpperCase() : '',
+        vehicle: vehicle ? vehicle.value.trim() : '',
+        notes: notes ? notes.value.trim() : ''
+      },
+      photosCount: Object.keys(photosData).length,
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      const stored = JSON.parse(localStorage.getItem('dynamic_collision_estimates') || '[]');
+      stored.push(estimateRecord);
+      localStorage.setItem('dynamic_collision_estimates', JSON.stringify(stored));
+    } catch (err) {
+      console.warn('LocalStorage error:', err);
+    }
+
+    if (saveBtn) {
+      saveBtn.textContent = 'Saved! ✓';
+      saveBtn.disabled = true;
+    }
+
+    if (successAlert) {
+      successAlert.style.display = 'flex';
+      successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    setTimeout(() => {
+      if (saveBtn) {
+        saveBtn.textContent = 'Save';
+        saveBtn.disabled = false;
+      }
+    }, 4500);
   });
 }
 
