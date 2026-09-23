@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#000000" rx="16"/>
+  <defs>
+    <filter id="greyFilter">
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <!-- Sleek sports car outline in grey on black background -->
+  <g transform="translate(50, 40)" filter="url(#greyFilter)">
+    <image href="logo-car.svg" x="0" y="0" width="400" height="240" />
+  </g>
+</svg>

@@ -2619,12 +2619,12 @@ select.form-control {
 
 /* Dedicated Estimate Page Layout & Controls */
 .estimate-page-container {
-  max-width: 860px;
+  max-width: 680px;
   margin: 0 auto;
   background: #161b22;
   border: 1px solid rgba(185, 28, 28, 0.35);
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 2.25rem 2rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(185, 28, 28, 0.15);
 }
 
@@ -2642,7 +2642,7 @@ select.form-control {
 }
 
 .estimate-section-title {
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.35rem;
@@ -2656,68 +2656,114 @@ select.form-control {
   line-height: 1.5;
 }
 
-.checkbox-options-grid,
-.radio-options-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
+/* Bold & larger question highlights */
+.estimate-question-highlight {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  display: block;
 }
 
-.custom-checkbox-card,
-.custom-radio-card {
+/* Horizontal Checkbox Row */
+.checkbox-options-row {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.85rem;
-  background: #161b22;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 0.9rem 1.2rem;
+  gap: 1.75rem;
+  margin-top: 0.75rem;
+}
+
+.custom-check-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 600;
   user-select: none;
 }
 
-.custom-checkbox-card:hover,
-.custom-radio-card:hover {
-  border-color: var(--accent);
-  background: rgba(185, 28, 28, 0.06);
-}
-
-.custom-checkbox-card.checked,
-.custom-radio-card.checked {
-  border-color: #ef4444;
-  background: rgba(185, 28, 28, 0.14);
-  box-shadow: 0 0 14px rgba(185, 28, 28, 0.2);
-}
-
-.custom-checkbox-card input[type="checkbox"],
-.custom-radio-card input[type="radio"] {
-  width: 20px;
-  height: 20px;
+.custom-check-inline input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
   accent-color: #b91c1c;
   cursor: pointer;
   margin: 0;
-  flex-shrink: 0;
 }
 
-.custom-check-text,
-.custom-radio-text {
-  font-size: 0.95rem;
-  font-weight: 600;
+/* Horizontal Radio Row */
+.radio-options-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.75rem;
+  margin-top: 0.75rem;
+}
+
+.custom-radio-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
   color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  user-select: none;
 }
 
-.paired-input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+.custom-radio-inline input[type="radio"] {
+  width: 19px;
+  height: 19px;
+  accent-color: #b91c1c;
+  cursor: pointer;
+  margin: 0;
 }
 
-.slot-car-icon {
-  width: 32px;
+/* Constrained Contact Fields */
+.contact-fields-container {
+  max-width: 520px;
+  width: 100%;
+}
+
+.contact-fields-container .form-group {
+  margin-bottom: 1.15rem;
+}
+
+.contact-fields-container .form-control {
+  max-width: 520px;
+  width: 100%;
+}
+
+/* Damage Photos Placeholder - Grey Car on Black Background */
+.damage-photos-placeholder {
+  max-width: 520px;
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+.placeholder-car-card {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.placeholder-car-card .grey-car-img {
+  max-width: 320px;
+  width: 100%;
   height: auto;
-  opacity: 0.85;
-  margin-bottom: 4px;
+  display: block;
 }
 
 .btn-save {

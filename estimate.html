@@ -48,7 +48,6 @@
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="estimate.html" class="active">Get Estimate</a>
-        <a href="#" class="nav-register-btn" data-modal-target="registerModal">Register</a>
         <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
       </div>
 
@@ -67,7 +66,6 @@
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
     <a href="estimate.html" class="active">Get Estimate</a>
-    <a href="#" class="nav-register-btn" data-modal-target="registerModal">Register</a>
     <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
   </div>
 
@@ -99,18 +97,19 @@
             <!-- 1. How will this repair be handled? -->
             <div class="estimate-card-section">
               <h2 class="estimate-section-title">How will this repair be handled?</h2>
-              <p class="estimate-section-subtitle">Are you filing through insurance or out of pocket?</p>
+              <div style="height: 1.25rem;"></div>
+              <p class="estimate-question-highlight">Are you filing through insurance or out of pocket?</p>
 
-              <div class="checkbox-options-grid">
-                <label class="custom-checkbox-card" id="lblMyInsurance">
+              <div class="checkbox-options-row">
+                <label class="custom-check-inline" id="lblMyInsurance">
                   <input type="checkbox" id="chkMyInsurance" name="repairHandling" value="My Insurance">
                   <span class="custom-check-text">My Insurance</span>
                 </label>
-                <label class="custom-checkbox-card" id="lblSelfPay">
+                <label class="custom-check-inline" id="lblSelfPay">
                   <input type="checkbox" id="chkSelfPay" name="repairHandling" value="Self-Pay">
                   <span class="custom-check-text">Self-Pay</span>
                 </label>
-                <label class="custom-checkbox-card" id="lblBoth">
+                <label class="custom-check-inline" id="lblBoth">
                   <input type="checkbox" id="chkBoth" name="repairHandling" value="Both">
                   <span class="custom-check-text">Both</span>
                 </label>
@@ -120,54 +119,46 @@
             <!-- 2. Insurance Details -->
             <div class="estimate-card-section" id="insuranceSection">
               <h3 class="estimate-section-title">Insurance?</h3>
-              <p class="estimate-section-subtitle">Select your insurance company from the dropdown menu, or type the company name directly in the field box.</p>
 
-              <div class="form-group">
-                <label for="insuranceDropdown">Insurance Company Name</label>
-                <div class="paired-input-row">
-                  <div class="paired-input-col">
-                    <select id="insuranceDropdown" class="form-control" aria-label="Select insurance company from list">
-                      <option value="">-- Choose From Common Providers --</option>
-                      <option value="State Farm">State Farm</option>
-                      <option value="GEICO">GEICO</option>
-                      <option value="Progressive">Progressive</option>
-                      <option value="Allstate">Allstate</option>
-                      <option value="USAA">USAA</option>
-                      <option value="Liberty Mutual">Liberty Mutual</option>
-                      <option value="Farmers">Farmers</option>
-                      <option value="Nationwide">Nationwide</option>
-                      <option value="American Family">American Family</option>
-                      <option value="Travelers">Travelers</option>
-                      <option value="Bear River Mutual">Bear River Mutual</option>
-                      <option value="Auto-Owners">Auto-Owners</option>
-                      <option value="Erie Insurance">Erie Insurance</option>
-                      <option value="AAA">AAA</option>
-                      <option value="The Hartford">The Hartford</option>
-                      <option value="Kemper">Kemper</option>
-                      <option value="Mercury">Mercury</option>
-                      <option value="MetLife">MetLife</option>
-                      <option value="None">None</option>
-                    </select>
-                  </div>
-                  <div class="paired-input-col">
-                    <input type="text" id="insuranceCompanyText" name="insuranceCompany" class="form-control" placeholder="Or type insurance company name here...">
-                  </div>
-                </div>
-                <div class="form-help">Clicking a provider in the dropdown fills this field automatically, or type any carrier name by hand.</div>
+              <div class="form-group" style="margin-top: 1.25rem;">
+                <label for="insuranceDropdown" style="font-size: 1.05rem; font-weight: 600; color: #ffffff; margin-bottom: 0.6rem; display: block;">Insurance Company</label>
+                <select id="insuranceDropdown" name="insuranceCompany" class="form-control" style="max-width: 480px; width: 100%;">
+                  <option value="">-- Choose From Common Providers --</option>
+                  <option value="State Farm">State Farm</option>
+                  <option value="GEICO">GEICO</option>
+                  <option value="Progressive">Progressive</option>
+                  <option value="Allstate">Allstate</option>
+                  <option value="USAA">USAA</option>
+                  <option value="Liberty Mutual">Liberty Mutual</option>
+                  <option value="Farmers">Farmers</option>
+                  <option value="Nationwide">Nationwide</option>
+                  <option value="American Family">American Family</option>
+                  <option value="Travelers">Travelers</option>
+                  <option value="Bear River Mutual">Bear River Mutual</option>
+                  <option value="Auto-Owners">Auto-Owners</option>
+                  <option value="Erie Insurance">Erie Insurance</option>
+                  <option value="AAA">AAA</option>
+                  <option value="The Hartford">The Hartford</option>
+                  <option value="Kemper">Kemper</option>
+                  <option value="Mercury">Mercury</option>
+                  <option value="MetLife">MetLife</option>
+                  <option value="Other / Not Listed">Other / Not Listed</option>
+                  <option value="None">None</option>
+                </select>
               </div>
 
-              <div class="form-group" style="margin-top: 1.5rem;">
-                <label style="margin-bottom: 0.6rem; display: block;">Filing an insurance claim through your policy or another driver's policy?</label>
-                <div class="radio-options-grid">
-                  <label class="custom-radio-card" id="lblOwnPolicy">
+              <div class="form-group" style="margin-top: 2rem;">
+                <label class="estimate-question-highlight">Filing an insurance claim through your policy or another driver's policy?</label>
+                <div class="radio-options-row">
+                  <label class="custom-radio-inline" id="lblOwnPolicy">
                     <input type="radio" name="claimPolicyType" value="Own Policy" checked>
                     <span class="custom-radio-text">Own Policy</span>
                   </label>
-                  <label class="custom-radio-card" id="lblAnotherPolicy">
+                  <label class="custom-radio-inline" id="lblAnotherPolicy">
                     <input type="radio" name="claimPolicyType" value="Another Driver's Policy">
                     <span class="custom-radio-text">Another Driver's Policy</span>
                   </label>
-                  <label class="custom-radio-card" id="lblNotApplicable">
+                  <label class="custom-radio-inline" id="lblNotApplicable">
                     <input type="radio" name="claimPolicyType" value="Not Applicable">
                     <span class="custom-radio-text">Not Applicable</span>
                   </label>
@@ -178,111 +169,53 @@
             <!-- 3. Customer Contact Information -->
             <div class="estimate-card-section">
               <h3 class="estimate-section-title">Customer Contact Information</h3>
-              <p class="estimate-section-subtitle">Where should we deliver your estimate and quote details?</p>
 
-              <div class="form-row-2">
+              <div class="contact-fields-container" style="max-width: 520px; margin-top: 1.25rem;">
                 <div class="form-group">
                   <label for="estimateFirstName">First Name *</label>
                   <input type="text" id="estimateFirstName" name="firstName" class="form-control" required placeholder="First name">
                 </div>
+
                 <div class="form-group">
                   <label for="estimateLastName">Last Name *</label>
                   <input type="text" id="estimateLastName" name="lastName" class="form-control" required placeholder="Last name">
                 </div>
-              </div>
 
-              <div class="form-row-2">
                 <div class="form-group">
                   <label for="estimatePhone">Phone Number *</label>
                   <input type="tel" id="estimatePhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
                 </div>
+
                 <div class="form-group">
                   <label for="estimateEmail">Email Address *</label>
                   <input type="email" id="estimateEmail" name="email" class="form-control" required placeholder="your@email.com">
                 </div>
-              </div>
 
-              <div class="form-row-2">
                 <div class="form-group">
                   <label for="estimateVin">Vehicle VIN # *</label>
                   <input type="text" id="estimateVin" name="vin" class="form-control" required placeholder="17-character VIN (Check Door Jam Or Dashboard)" maxlength="17" style="text-transform:uppercase;">
                   <div class="form-help">The Vehicle Identification Number ensures exact parts pricing and paint code verification.</div>
                 </div>
+
                 <div class="form-group">
                   <label for="estimateVehicle">Vehicle Year / Make / Model (Optional)</label>
                   <input type="text" id="estimateVehicle" name="vehicle" class="form-control" placeholder="e.g. 2022 Ford F-150 / Toyota Camry">
                   <div class="form-help">Helps us expedite parts lookup and exact factory paint codes.</div>
                 </div>
-              </div>
 
-              <div class="form-group" style="margin-top: 0.5rem;">
-                <label for="estimateNotes">Repair Notes / Description (Optional)</label>
-                <textarea id="estimateNotes" name="notes" class="form-control" rows="3" placeholder="Briefly describe what happened or any specific concerns."></textarea>
+                <div class="form-group" style="margin-top: 0.5rem;">
+                  <label for="estimateNotes">Repair Notes / Description (Optional)</label>
+                  <textarea id="estimateNotes" name="notes" class="form-control" rows="3" placeholder="Briefly describe what happened or any specific concerns."></textarea>
+                </div>
               </div>
             </div>
 
             <!-- 4. Damage Photos -->
             <div class="estimate-card-section">
               <h3 class="estimate-section-title">Damage Photos</h3>
-              <p class="estimate-section-subtitle">Upload clear photos to help us produce a precise estimate (.jpeg or .png images accepted).</p>
-
-              <!-- Damage Close-ups (2-3) -->
-              <div class="photo-guide-section">
-                <div class="photo-guide-title">
-                  <span>📸 Damage Close-Up Angles (2–3 recommended)</span>
-                </div>
-                <div class="photo-slots-grid">
-                  <div class="photo-slot" data-slot="close-up">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <span style="font-size:1.5rem;">🔍</span>
-                    <span class="slot-label">Close-Up</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                  <div class="photo-slot" data-slot="close-up-right">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <span style="font-size:1.5rem;">📐</span>
-                    <span class="slot-label">Right Angle</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                  <div class="photo-slot" data-slot="close-up-left">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <span style="font-size:1.5rem;">📐</span>
-                    <span class="slot-label">Left Angle</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 4 Corners -->
-              <div class="photo-guide-section" style="margin-top: 1.25rem;">
-                <div class="photo-guide-title">
-                  <span>🔄 4 Corners of Vehicle</span>
-                </div>
-                <div class="photo-slots-grid">
-                  <div class="photo-slot" data-slot="corner-fl">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <img src="images/logo-car.svg" alt="" class="slot-car-icon">
-                    <span class="slot-label">Front-Left</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                  <div class="photo-slot" data-slot="corner-fr">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <img src="images/logo-car.svg" alt="" class="slot-car-icon">
-                    <span class="slot-label">Front-Right</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                  <div class="photo-slot" data-slot="corner-rl">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <img src="images/logo-car.svg" alt="" class="slot-car-icon">
-                    <span class="slot-label">Rear-Left</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
-                  <div class="photo-slot" data-slot="corner-rr">
-                    <input type="file" accept=".jpg, .jpeg, .png, image/jpeg, image/png" class="slot-file-input" style="display:none;">
-                    <img src="images/logo-car.svg" alt="" class="slot-car-icon">
-                    <span class="slot-label">Rear-Right</span>
-                    <button type="button" class="slot-remove" aria-label="Remove photo">&times;</button>
-                  </div>
+              <div class="damage-photos-placeholder" style="margin-top: 1.25rem;">
+                <div class="placeholder-car-card">
+                  <img src="images/grey-car.svg" alt="Damage Photos Placeholder" class="grey-car-img">
                 </div>
               </div>
             </div>
@@ -364,82 +297,7 @@
   <!-- Scroll to Top -->
   <button class="scroll-top" id="scroll-top" aria-label="Scroll back to top">↑</button>
 
-  <!-- ============================================
-       CUSTOMER REGISTRATION MODAL
-       ============================================ -->
-  <div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" tabindex="-1">
-    <div class="modal-window">
-      <div class="modal-header">
-        <h3 id="registerModalTitle"><img src="images/logo-car.svg" alt="" style="height:24px; vertical-align:middle; margin-right:6px;"> Customer Registration</h3>
-        <button type="button" class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="wizard-subtitle" style="text-align:left; margin-bottom:1.25rem;">Create your profile for streamlined estimates, repair tracking, and express service.</p>
-        
-        <div id="registerSuccessAlert" class="modal-alert modal-alert-success" style="display:none;">
-          <span>✓</span>
-          <div>
-            <strong>Registration successful!</strong> Your profile has been created. We look forward to servicing your vehicle.
-          </div>
-        </div>
 
-        <form id="customerRegistrationForm" novalidate>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="regFirstName">First Name *</label>
-              <input type="text" id="regFirstName" name="firstName" class="form-control" required placeholder="Robin">
-            </div>
-            <div class="form-group">
-              <label for="regLastName">Last Name *</label>
-              <input type="text" id="regLastName" name="lastName" class="form-control" required placeholder="Roberts">
-            </div>
-          </div>
-
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="regPhone">Phone Number *</label>
-              <input type="tel" id="regPhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
-            </div>
-            <div class="form-group">
-              <label for="regEmail">Email Address *</label>
-              <input type="email" id="regEmail" name="email" class="form-control" required placeholder="name@example.com">
-            </div>
-          </div>
-
-          <div style="margin-top: 1rem; margin-bottom: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
-            <span style="font-size: 0.85rem; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px;">Optional Vehicle Information</span>
-          </div>
-
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="regYear">Vehicle Year</label>
-              <input type="number" id="regYear" name="year" class="form-control" placeholder="e.g. 2022" min="1950" max="2030">
-            </div>
-            <div class="form-group">
-              <label for="regMake">Vehicle Make</label>
-              <input type="text" id="regMake" name="make" class="form-control" placeholder="e.g. Ford / Toyota">
-            </div>
-          </div>
-
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="regModel">Vehicle Model</label>
-              <input type="text" id="regModel" name="model" class="form-control" placeholder="e.g. F-150 / Camry">
-            </div>
-            <div class="form-group">
-              <label for="regVin">VIN Number</label>
-              <input type="text" id="regVin" name="vin" class="form-control" placeholder="17-character VIN" maxlength="17" style="text-transform:uppercase;">
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
-            <button type="submit" class="btn btn-primary" id="regSubmitBtn">Complete Registration</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Main Script -->
   <script src="js/main.js"></script>
