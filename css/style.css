@@ -3045,6 +3045,80 @@ select.form-control {
   border-radius: 10px;
 }
 
+/* ============================================
+   Paragraph Spacers & Image Separation (Site-Wide)
+   ============================================ */
+.paragraph-spacer {
+  height: 1.75rem;
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.history-grid {
+  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.history-content {
+  margin-bottom: 1.5rem;
+}
+
+.history-content p {
+  margin-bottom: 1.25rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-secondary, #d1d5db);
+}
+
+.history-visual {
+  width: 100%;
+  margin-top: 1.75rem;
+}
+
+.shop-image-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.shop-image-wrapper img.rounded-img {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  display: block;
+  margin: 0 auto;
+}
+
+/* Remove bottom empty dark bar under history image */
+.history-section {
+  padding-top: 4.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.team-after-history {
+  padding-top: 2.5rem;
+  padding-bottom: 5rem;
+}
+
+/* Site-wide image & text spacing */
+.service-detail-grid {
+  gap: 2.5rem;
+}
+
+.service-detail-visual {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.damage-photos-placeholder,
+.damage-photos-wrapper {
+  margin-top: 1.75rem;
+}
+
 
 
 
