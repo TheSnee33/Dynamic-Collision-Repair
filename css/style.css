@@ -3049,7 +3049,9 @@ select.form-control {
    Paragraph Spacers & Image Separation (Site-Wide)
    ============================================ */
 .paragraph-spacer {
-  height: 1.75rem;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  margin: 2rem 0;
   width: 100%;
   display: block;
   clear: both;
