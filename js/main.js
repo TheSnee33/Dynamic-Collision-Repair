@@ -405,7 +405,10 @@ function initModals() {
 
       if (!valid) return;
 
+      const regCode = 'DC-REG-' + Math.floor(100000 + Math.random() * 900000);
+
       const regData = {
+        registrationCode: regCode,
         firstName: firstName ? firstName.value.trim() : '',
         lastName: lastName ? lastName.value.trim() : '',
         phone: phone ? phone.value.trim() : '',
@@ -413,8 +416,9 @@ function initModals() {
         year: document.getElementById('regYear') ? document.getElementById('regYear').value.trim() : '',
         make: document.getElementById('regMake') ? document.getElementById('regMake').value.trim() : '',
         model: document.getElementById('regModel') ? document.getElementById('regModel').value.trim() : '',
-        vin: document.getElementById('regVin') ? document.getElementById('regVin').value.trim() : '',
-        registeredAt: new Date().toISOString()
+        vin: document.getElementById('regVin') ? document.getElementById('regVin').value.trim().toUpperCase() : '',
+        registeredAt: new Date().toISOString(),
+        routedTo: ['contact@dynamiccollisionprovo.com', 'brandon@dynamiccollisionrepair.com']
       };
 
       try {
@@ -423,6 +427,11 @@ function initModals() {
         localStorage.setItem('dynamic_collision_registrations', JSON.stringify(stored));
       } catch (err) {
         console.warn('LocalStorage unavailable:', err);
+      }
+
+      const regCodeDisplay = document.getElementById('regCodeDisplay');
+      if (regCodeDisplay) {
+        regCodeDisplay.textContent = regCode;
       }
 
       const submitBtn = document.getElementById('regSubmitBtn');
@@ -936,9 +945,107 @@ function initEstimateForm() {
   // 2. Insurance company dropdown
   const insuranceDropdown = document.getElementById('insuranceDropdown');
 
-  // 3. Form submission & Clickable Save Button
+  // 3. Paint Color Selection Tool
+  const swatchBtns = form.querySelectorAll('.color-swatch-btn');
+  const badgeColorDot = document.getElementById('badgeColorDot');
+  const badgeColorName = document.getElementById('badgeColorName');
+  const selectedColorInput = document.getElementById('selectedColorInput');
+  const tintCarName = document.getElementById('tintCarName');
+  const carSilhouetteCard = document.getElementById('carSilhouetteCard');
+
+  let activePaintColor = 'Glacier White / Pearl';
+
+  swatchBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      swatchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const colorHex = btn.getAttribute('data-color') || '#ffffff';
+      const colorName = btn.getAttribute('data-color-name') || 'Custom Color';
+      activePaintColor = colorName;
+
+      if (badgeColorDot) badgeColorDot.style.backgroundColor = colorHex;
+      if (badgeColorName) badgeColorName.textContent = colorName;
+      if (selectedColorInput) selectedColorInput.value = colorName;
+      if (tintCarName) tintCarName.textContent = colorName;
+
+      if (carSilhouetteCard) {
+        carSilhouetteCard.style.boxShadow = `0 4px 20px ${colorHex}33`;
+        carSilhouetteCard.style.borderColor = `${colorHex}55`;
+      }
+    });
+  });
+
+  // 4. Photo Upload Slots
+  const photoCards = form.querySelectorAll('.photo-upload-card');
+  const uploadedPhotos = {};
+
+  photoCards.forEach((card) => {
+    const slotKey = card.getAttribute('data-slot') || 'damage-photo';
+    const fileInput = card.querySelector('.photo-file-input');
+    const removeBtn = card.querySelector('.photo-remove-btn');
+
+    card.addEventListener('click', (e) => {
+      if (e.target === removeBtn || e.target.closest('.photo-remove-btn')) return;
+      if (fileInput) fileInput.click();
+    });
+
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (re) => {
+          uploadedPhotos[slotKey] = {
+            fileName: file.name,
+            fileSize: file.size,
+            dataUrl: re.target.result
+          };
+
+          let thumb = card.querySelector('img.preview-thumb');
+          if (!thumb) {
+            thumb = document.createElement('img');
+            thumb.className = 'preview-thumb';
+            card.appendChild(thumb);
+          }
+          thumb.src = re.target.result;
+          card.classList.add('has-photo');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (removeBtn) {
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        delete uploadedPhotos[slotKey];
+        if (fileInput) fileInput.value = '';
+        const thumb = card.querySelector('img.preview-thumb');
+        if (thumb) thumb.remove();
+        card.classList.remove('has-photo');
+      });
+    }
+  });
+
+  // 5. Form submission & Ticket Code Generation
   const saveBtn = document.getElementById('estimateSaveBtn');
   const successAlert = document.getElementById('estimateSuccessAlert');
+  const ticketCodeDisplay = document.getElementById('estimateTicketCodeDisplay');
+  const copyTicketBtn = document.getElementById('copyTicketBtn');
+
+  if (copyTicketBtn) {
+    copyTicketBtn.addEventListener('click', () => {
+      const code = ticketCodeDisplay ? ticketCodeDisplay.textContent.trim() : '';
+      if (code && navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          const orig = copyTicketBtn.textContent;
+          copyTicketBtn.textContent = 'Copied! ✓';
+          setTimeout(() => { copyTicketBtn.textContent = orig; }, 2500);
+        });
+      }
+    });
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -991,10 +1098,16 @@ function initEstimateForm() {
     // Selected policy radio
     const selectedPolicy = form.querySelector('input[name="claimPolicyType"]:checked');
 
+    // Generate unique Ticket Code: DC-######
+    const ticketCode = 'DC-' + Math.floor(100000 + Math.random() * 900000);
+
     const estimateRecord = {
+      ticketCode: ticketCode,
       repairHandling: handlingChoices.length > 0 ? handlingChoices : ['My Insurance'],
       insuranceCompany: insuranceDropdown ? insuranceDropdown.value : '',
       policyType: selectedPolicy ? selectedPolicy.value : 'Own Policy',
+      selectedPaintColor: activePaintColor,
+      photosCount: Object.keys(uploadedPhotos).length,
       customer: {
         firstName: firstName ? firstName.value.trim() : '',
         lastName: lastName ? lastName.value.trim() : '',
@@ -1004,7 +1117,8 @@ function initEstimateForm() {
         vehicle: vehicle ? vehicle.value.trim() : '',
         notes: notes ? notes.value.trim() : ''
       },
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      routedTo: ['contact@dynamiccollisionprovo.com', 'brandon@dynamiccollisionrepair.com']
     };
 
     try {
@@ -1015,8 +1129,12 @@ function initEstimateForm() {
       console.warn('LocalStorage error:', err);
     }
 
+    if (ticketCodeDisplay) {
+      ticketCodeDisplay.textContent = '#' + ticketCode;
+    }
+
     if (saveBtn) {
-      saveBtn.textContent = 'Saved! ✓';
+      saveBtn.textContent = 'Ticket Generated! ✓';
       saveBtn.disabled = true;
     }
 
@@ -1030,7 +1148,7 @@ function initEstimateForm() {
         saveBtn.textContent = 'Save';
         saveBtn.disabled = false;
       }
-    }, 4500);
+    }, 6000);
   });
 }
 

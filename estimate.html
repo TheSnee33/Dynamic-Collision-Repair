@@ -50,6 +50,7 @@
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="estimate.html" class="active">Get Estimate</a>
+        <a href="#" class="nav-register-btn" data-modal-target="registerModal">Register</a>
         <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
       </div>
 
@@ -68,6 +69,7 @@
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
     <a href="estimate.html" class="active">Get Estimate</a>
+    <a href="#" class="nav-register-btn" data-modal-target="registerModal">Register</a>
     <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
   </div>
 
@@ -87,11 +89,30 @@
       <div class="container">
         <div class="estimate-page-container">
 
-          <div id="estimateSuccessAlert" class="modal-alert modal-alert-success" style="display:none;">
-            <span>✓</span>
-            <div>
-              <strong>Estimate Saved Successfully!</strong> Thank you for choosing Dynamic Collision Repair. Our estimators are reviewing your details and damage photos and will contact you promptly.
+          <div id="estimateSuccessAlert" class="modal-alert modal-alert-success" style="display:none; flex-direction: column; align-items: stretch; text-align: left; padding: 1.5rem; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+              <span style="font-size: 2rem; color: #10b981; line-height: 1;">✓</span>
+              <div>
+                <strong style="font-size: 1.25rem; color: #ffffff; display: block; margin-bottom: 0.25rem;">Estimate Ticket Created Successfully!</strong>
+                <p style="margin: 0; color: #e5e7eb; font-size: 0.95rem;">
+                  Your repair estimate request, damage photos, and vehicle specs have been recorded and routed directly to our shop inbox at <strong>contact@dynamiccollisionprovo.com</strong> and <strong>brandon@dynamiccollisionrepair.com</strong>.
+                </p>
+              </div>
             </div>
+
+            <div class="ticket-badge-box" style="margin-top: 1.25rem; padding: 1rem 1.25rem; background: rgba(0,0,0,0.4); border: 2px dashed rgba(239, 68, 68, 0.5); border-radius: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+              <div>
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #9ca3af; display: block;">Your Official Ticket Code</span>
+                <span id="estimateTicketCodeDisplay" style="font-family: monospace; font-size: 1.75rem; font-weight: 800; color: #ef4444; letter-spacing: 2px;">#DC-104928</span>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <button type="button" id="copyTicketBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Copy Code</button>
+              </div>
+            </div>
+
+            <p style="margin: 1rem 0 0; font-size: 0.85rem; color: #9ca3af; line-height: 1.5;">
+              Please save or screenshot this Ticket Code. When you call us at <strong>(801) 377-7252</strong> or arrive at our shop at 1671 S State St in Provo, provide this code for instant lookup of your photos and estimate files.
+            </p>
           </div>
 
           <form id="estimateForm" novalidate>
@@ -212,13 +233,131 @@
               </div>
             </div>
 
-            <!-- 4. Damage Photos -->
-            <div class="estimate-card-section">
-              <h3 class="estimate-section-title">Damage Photos</h3>
-              <div class="damage-photos-placeholder" style="margin-top: 1.25rem;">
-                <div class="placeholder-car-card">
-                  <img src="images/grey-car.svg" alt="Damage Photos Placeholder" class="grey-car-img">
+            <!-- 4. Paint Color Selection Tool & Damage Photos -->
+            <div class="estimate-card-section" id="paintColorAndPhotosSection">
+              <h3 class="estimate-section-title">Paint Color &amp; Damage Photos</h3>
+              <p class="estimate-question-highlight" style="font-size: 1.05rem; margin-top: 0.75rem;">Vehicle Paint Color Selection</p>
+              <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 1.25rem;">
+                If your repair requires repainting or blending replacement panels, select your vehicle's approximate factory color below. This color pairs with your uploaded photos for exact paint booth prep.
+              </p>
+
+              <!-- Color Palette Swatches -->
+              <div class="color-palette-container" id="colorPaletteContainer">
+                <div class="color-swatches-grid">
+                  <button type="button" class="color-swatch-btn active" data-color="#F3F4F6" data-color-name="Glacier White / Pearl" title="Glacier White / Pearl">
+                    <span class="swatch-circle" style="background-color: #F3F4F6; border: 1px solid #d1d5db;"></span>
+                    <span class="swatch-label">White / Pearl</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#111827" data-color-name="Jet Black / Metallic" title="Jet Black / Metallic">
+                    <span class="swatch-circle" style="background-color: #111827; border: 1px solid #4b5563;"></span>
+                    <span class="swatch-label">Jet Black</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#9CA3AF" data-color-name="Silver Metallic / Billet" title="Silver Metallic / Billet">
+                    <span class="swatch-circle" style="background-color: #9CA3AF; border: 1px solid #6b7280;"></span>
+                    <span class="swatch-label">Silver Metallic</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#4B5563" data-color-name="Charcoal / Gunmetal Gray" title="Charcoal / Gunmetal Gray">
+                    <span class="swatch-circle" style="background-color: #4B5563;"></span>
+                    <span class="swatch-label">Gunmetal Gray</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#1E40AF" data-color-name="Deep Blue / Navy Pearl" title="Deep Blue / Navy Pearl">
+                    <span class="swatch-circle" style="background-color: #1E40AF;"></span>
+                    <span class="swatch-label">Deep Blue</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#991B1B" data-color-name="Ruby Red / Crimson Tintcoat" title="Ruby Red / Crimson Tintcoat">
+                    <span class="swatch-circle" style="background-color: #991B1B;"></span>
+                    <span class="swatch-label">Ruby Red</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#065F46" data-color-name="Forest Green / Emerald" title="Forest Green / Emerald">
+                    <span class="swatch-circle" style="background-color: #065F46;"></span>
+                    <span class="swatch-label">Forest Green</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#B45309" data-color-name="Bronze / Amber / Champagne" title="Bronze / Amber / Champagne">
+                    <span class="swatch-circle" style="background-color: #B45309;"></span>
+                    <span class="swatch-label">Champagne / Bronze</span>
+                  </button>
+                  <button type="button" class="color-swatch-btn" data-color="#7C3AED" data-color-name="Custom / Other Paint" title="Custom / Other Paint">
+                    <span class="swatch-circle" style="background: linear-gradient(135deg, #7C3AED, #EC4899);"></span>
+                    <span class="swatch-label">Custom / Other</span>
+                  </button>
                 </div>
+
+                <div class="selected-color-bar" style="margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="font-size: 0.9rem; color: #9ca3af;">Selected Color:</span>
+                  <span id="selectedColorBadge" class="selected-color-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; font-weight: 600; font-size: 0.88rem; color: #ffffff;">
+                    <span id="badgeColorDot" style="width: 12px; height: 12px; border-radius: 50%; background-color: #F3F4F6; display: inline-block;"></span>
+                    <span id="badgeColorName">Glacier White / Pearl</span>
+                  </span>
+                  <input type="hidden" id="selectedColorInput" name="selectedColor" value="Glacier White / Pearl">
+                </div>
+              </div>
+
+              <!-- Car Preview paired with selected color & photo uploads -->
+              <div class="damage-photos-wrapper" style="margin-top: 1.75rem;">
+                <p class="estimate-question-highlight" style="font-size: 1.05rem;">Upload Damage Photos</p>
+                <p class="text-secondary" style="font-size: 0.88rem; margin-bottom: 1rem;">
+                  Upload clear photos of the damage from different angles (front, rear, close-up). Our estimating team matches your photos with factory paint formulas.
+                </p>
+
+                <!-- Interactive Photo Upload Grid -->
+                <div class="photo-upload-grid" id="estimatePhotoGrid">
+                  <div class="photo-upload-card" data-slot="damage-1">
+                    <input type="file" accept="image/*" class="photo-file-input" style="display:none;">
+                    <div class="photo-upload-content">
+                      <span class="upload-icon">📷</span>
+                      <span class="upload-text">Front / Angle View</span>
+                      <span class="upload-hint">Click or drop photo</span>
+                    </div>
+                    <button type="button" class="photo-remove-btn" title="Remove image">&times;</button>
+                  </div>
+
+                  <div class="photo-upload-card" data-slot="damage-2">
+                    <input type="file" accept="image/*" class="photo-file-input" style="display:none;">
+                    <div class="photo-upload-content">
+                      <span class="upload-icon">📷</span>
+                      <span class="upload-text">Side / Rear Damage</span>
+                      <span class="upload-hint">Click or drop photo</span>
+                    </div>
+                    <button type="button" class="photo-remove-btn" title="Remove image">&times;</button>
+                  </div>
+
+                  <div class="photo-upload-card" data-slot="damage-3">
+                    <input type="file" accept="image/*" class="photo-file-input" style="display:none;">
+                    <div class="photo-upload-content">
+                      <span class="upload-icon">📷</span>
+                      <span class="upload-text">Close-up of Dent / Scratch</span>
+                      <span class="upload-hint">Click or drop photo</span>
+                    </div>
+                    <button type="button" class="photo-remove-btn" title="Remove image">&times;</button>
+                  </div>
+
+                  <div class="photo-upload-card" data-slot="damage-4">
+                    <input type="file" accept="image/*" class="photo-file-input" style="display:none;">
+                    <div class="photo-upload-content">
+                      <span class="upload-icon">🔍</span>
+                      <span class="upload-text">VIN or Door Jamb Sticker</span>
+                      <span class="upload-hint">Click or drop photo</span>
+                    </div>
+                    <button type="button" class="photo-remove-btn" title="Remove image">&times;</button>
+                  </div>
+                </div>
+
+                <div class="damage-photos-placeholder" style="margin-top: 1.5rem;">
+                  <div class="placeholder-car-card" id="carSilhouetteCard" style="position: relative; border-radius: 12px; padding: 1.25rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <img src="images/grey-car.svg" alt="Damage Photos Vehicle Silhouette" class="grey-car-img" id="previewCarImg" style="transition: filter 0.3s ease;">
+                    <div class="car-color-tint-indicator" id="carTintIndicator" style="margin-top: 0.5rem; font-size: 0.85rem; color: #9ca3af;">
+                      Pairing color <strong id="tintCarName" style="color: #ffffff;">Glacier White / Pearl</strong> with your inspection estimate
+                    </div>
+                  </div>
+                </div>
+
+                <div class="warranty-notice-box" style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: rgba(185, 28, 28, 0.08); border-left: 4px solid var(--accent, #b91c1c); border-radius: 6px;">
+                  <strong style="color: #ffffff; font-size: 0.95rem;">Warranty Protection Summary:</strong>
+                  <p style="margin: 0.4rem 0 0; font-size: 0.86rem; color: #d1d5db; line-height: 1.5;">
+                    Dynamic Collision provides a <strong>Lifetime Warranty</strong> on all collision &amp; structural auto body repairs for as long as you own your car. Auto paint and refinishing work is backed by our factory-matching <strong>7-Year Paint Warranty</strong>, ensuring resilient UV protection against Utah weather.
+                  </p>
+                </div>
+
               </div>
             </div>
 
@@ -274,9 +413,9 @@
         <div class="footer-col">
           <h4>Services</h4>
           <ul>
-            <li><a href="services.html#collision-repair">Collision Repair</a></li>
-            <li><a href="services.html#auto-body">Auto Body Repair</a></li>
+            <li><a href="services.html#collision-repair">Collision &amp; Body Repair</a></li>
             <li><a href="services.html#paint-refinishing">Paint &amp; Refinishing</a></li>
+            <li><a href="services.html#mechanical-work">Mechanical Work</a></li>
             <li><a href="services.html#inspections">Vehicle Inspections</a></li>
             <li><a href="estimate.html">Free Estimates</a></li>
           </ul>
@@ -301,6 +440,89 @@
   <button class="scroll-top" id="scroll-top" aria-label="Scroll back to top">↑</button>
 
 
+
+  
+<!-- ============================================
+     CUSTOMER REGISTRATION MODAL
+     ============================================ -->
+<div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" tabindex="-1">
+  <div class="modal-window">
+    <div class="modal-header">
+      <h3 id="registerModalTitle"><img src="images/logo-car.svg" alt="" style="height:24px; vertical-align:middle; margin-right:6px;"> Customer Registration</h3>
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="wizard-subtitle" style="text-align:left; margin-bottom:1.25rem;">Create your profile for streamlined estimates, repair tracking, and express service.</p>
+      
+      <div id="registerSuccessAlert" class="modal-alert modal-alert-success" style="display:none; flex-direction:column; padding: 1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <span style="font-size:1.5rem; color:#10b981;">✓</span>
+          <div>
+            <strong style="color:#ffffff;">Registration successful!</strong> Your profile has been created.
+          </div>
+        </div>
+        <div style="margin-top:0.75rem; padding:0.5rem 0.75rem; background:rgba(0,0,0,0.3); border-radius:6px; font-size:0.85rem; color:#9ca3af;">
+          Customer ID: <strong id="regCodeDisplay" style="color:#ef4444; font-family:monospace; font-size:1rem;">DC-REG-492104</strong>
+        </div>
+      </div>
+
+      <form id="customerRegistrationForm" novalidate>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regFirstName">First Name *</label>
+            <input type="text" id="regFirstName" name="firstName" class="form-control" required placeholder="Robin">
+          </div>
+          <div class="form-group">
+            <label for="regLastName">Last Name *</label>
+            <input type="text" id="regLastName" name="lastName" class="form-control" required placeholder="Roberts">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regPhone">Phone Number *</label>
+            <input type="tel" id="regPhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email Address *</label>
+            <input type="email" id="regEmail" name="email" class="form-control" required placeholder="name@example.com">
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; margin-bottom: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px;">Optional Vehicle Information</span>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regYear">Vehicle Year</label>
+            <input type="number" id="regYear" name="year" class="form-control" placeholder="e.g. 2022" min="1950" max="2030">
+          </div>
+          <div class="form-group">
+            <label for="regMake">Vehicle Make</label>
+            <input type="text" id="regMake" name="make" class="form-control" placeholder="e.g. Ford / Toyota">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regModel">Vehicle Model</label>
+            <input type="text" id="regModel" name="model" class="form-control" placeholder="e.g. F-150 / Camry">
+          </div>
+          <div class="form-group">
+            <label for="regVin">VIN Number</label>
+            <input type="text" id="regVin" name="vin" class="form-control" placeholder="17-character VIN" maxlength="17" style="text-transform:uppercase;">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="regSubmitBtn">Complete Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
   <!-- Main Script -->
   <script src="js/main.js"></script>
