@@ -607,8 +607,15 @@ strong { font-weight: 600; }
    -------------------------------------------------------------------------- */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.section-cta {
+  text-align: center;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .service-card {
@@ -1070,11 +1077,11 @@ select.form-control {
 }
 
 .footer-logo-img {
-  width: 220px;
-  max-width: 85%;
+  width: 110px;
+  max-width: 110px;
   height: auto;
   display: block;
-  margin: 0 auto 1.25rem;
+  margin: 0 auto 1rem;
   transition: transform var(--transition-fast);
 }
 
@@ -1110,7 +1117,7 @@ select.form-control {
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
   max-width: 820px;
-  margin: 0 auto 2.5rem;
+  margin: 2.5rem auto 2.5rem;
 }
 
 .footer-col h4,
