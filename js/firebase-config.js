@@ -1,20 +1,20 @@
 /**
  * Dynamic Collision Repair - Firebase Customer Database Integration
- * Project: dynamic-e17a5
- * Console: https://console.firebase.google.com/project/dynamic-e17a5
+ * Project: dynamic-d2ba0
+ * Console: https://console.firebase.google.com/project/dynamic-d2ba0
  */
 
 (function (window) {
   'use strict';
 
-  // 1. Firebase Configuration for dynamic-e17a5
+  // 1. Firebase Configuration for dynamic-d2ba0
   const firebaseConfig = {
     apiKey: window.__FIREBASE_API_KEY__ || "AIzaSy_REPLACE_WITH_YOUR_FIREBASE_WEB_API_KEY",
-    authDomain: "dynamic-e17a5.firebaseapp.com",
-    projectId: "dynamic-e17a5",
-    storageBucket: "dynamic-e17a5.firebasestorage.app",
-    messagingSenderId: "dynamic-e17a5",
-    appId: "1:dynamic-e17a5:web:customer-database"
+    authDomain: "dynamic-d2ba0.firebaseapp.com",
+    projectId: "dynamic-d2ba0",
+    storageBucket: "dynamic-d2ba0.firebasestorage.app",
+    messagingSenderId: "dynamic-d2ba0",
+    appId: "1:dynamic-d2ba0:web:customer-database"
   };
 
   let db = null;
@@ -30,7 +30,7 @@
         if (firebase.firestore) {
           db = firebase.firestore();
           isFirebaseInitialized = true;
-          console.log('[Firebase] Initialized Firestore for project dynamic-e17a5');
+          console.log('[Firebase] Initialized Firestore for project dynamic-d2ba0');
         }
       }
     } catch (err) {
