@@ -7,14 +7,14 @@
 (function (window) {
   'use strict';
 
-  // 1. Firebase Configuration for dynamic-d2ba0
+  // 1. Firebase Configuration for dynamic-d2ba0 (Live Verified)
   const firebaseConfig = {
-    apiKey: window.__FIREBASE_API_KEY__ || "AIzaSy_REPLACE_WITH_YOUR_FIREBASE_WEB_API_KEY",
+    apiKey: "AIzaSyB6lnRWrWeLJaZMATd-wjQ96ZBT92dmGIw",
     authDomain: "dynamic-d2ba0.firebaseapp.com",
     projectId: "dynamic-d2ba0",
     storageBucket: "dynamic-d2ba0.firebasestorage.app",
-    messagingSenderId: "dynamic-d2ba0",
-    appId: "1:dynamic-d2ba0:web:customer-database"
+    messagingSenderId: "372300179249",
+    appId: "1:372300179249:web:764259b4879aca58b3b210"
   };
 
   let db = null;
@@ -116,7 +116,7 @@
     // 3. Try Direct Firestore REST API fallback if SDK write didn't succeed
     if (!savedRemote) {
       try {
-        const restUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/customers`;
+        const restUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/customers?key=${firebaseConfig.apiKey}`;
         const restBody = {
           fields: {
             lastName: { stringValue: record.lastName },
