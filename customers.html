@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Customer Database | Dynamic Collision Repair</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="images/favicon-32.png">
+  <link rel="apple-touch-icon" href="images/favicon-32.png">
+
+  <style>
+    .db-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+    .db-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 1.5rem;
+    }
+    .db-title-group h1 {
+      font-size: 2rem;
+      margin-bottom: 0.35rem;
+    }
+    .db-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .db-stat-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      text-align: center;
+    }
+    .db-stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent, #b91c1c);
+    }
+    .db-stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary, #9ca3af);
+    }
+    .db-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .db-search {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+    .db-search input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    .db-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn-db {
+      padding: 0.7rem 1.25rem;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-db-primary {
+      background: var(--accent, #b91c1c);
+      color: #fff;
+    }
+    .btn-db-primary:hover {
+      background: #991b1b;
+    }
+    .btn-db-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .btn-db-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .table-wrapper {
+      background: rgba(18, 21, 27, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow-x: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    table.db-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    table.db-table th {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 1rem 1.25rem;
+      color: var(--text-secondary, #9ca3af);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+    }
+    table.db-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e5e7eb;
+      vertical-align: middle;
+    }
+    table.db-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .badge-vin {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.5px;
+    }
+    .badge-code {
+      color: #f87171;
+      font-weight: 600;
+      font-family: monospace;
+    }
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--text-secondary, #9ca3af);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="index.html" class="nav-logo" id="nav-logo">
+        <img src="images/logo-car.svg" alt="Dynamic Collision Repair" class="logo-icon-img">
+        <div class="logo-text-group">
+          <span class="logo-text">DYNAMIC<span class="logo-accent">COLLISION</span></span>
+        </div>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="estimate.html">Get Estimate</a>
+        <a href="#" class="nav-register-btn" data-modal-target="registerModal">Register</a>
+        <a href="tel:8013777252" class="nav-cta" id="nav-cta-phone">(801) 377-7252</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="db-container" style="margin-top: 5rem;">
+    <div class="db-header">
+      <div class="db-title-group">
+        <span class="overline" style="color: #ef4444; font-weight:700; letter-spacing:1px;">FIREBASE PROJECT: dynamic-e17a5</span>
+        <h1>Customer Information Database</h1>
+        <p style="color: var(--text-secondary); margin:0;">Live records synced with Cloud Firestore (<code style="color:#f87171;">customers</code> collection).</p>
+      </div>
+      <div class="db-stats">
+        <div class="db-stat-badge">
+          <div class="db-stat-value" id="statTotalCustomers">0</div>
+          <div class="db-stat-label">Registered Customers</div>
+        </div>
+        <div class="db-stat-badge">
+          <div class="db-stat-value" id="statTotalVehicles">0</div>
+          <div class="db-stat-label">Vehicles On File</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="db-controls">
+      <div class="db-search">
+        <input type="text" id="customerSearchInput" placeholder="🔍 Search by name, phone, email, vehicle, or VIN...">
+      </div>
+      <div class="db-actions">
+        <button class="btn-db btn-db-secondary" id="btnRefreshDb" title="Refresh records from Firebase">🔄 Refresh</button>
+        <button class="btn-db btn-db-primary" id="btnExportCsv" title="Export database to CSV">📥 Export to CSV</button>
+        <a href="https://console.firebase.google.com/project/dynamic-e17a5/firestore" target="_blank" rel="noopener" class="btn-db btn-db-secondary">🔥 Open Firebase Console</a>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table class="db-table" id="customerTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Reg Code</th>
+            <th>Customer Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Vehicle (Year / Make / Model)</th>
+            <th>VIN</th>
+          </tr>
+        </thead>
+        <tbody id="customerTableBody">
+          <tr>
+            <td colspan="7" class="empty-state">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">⏳</div>
+              <div>Connecting to Firebase project <code>dynamic-e17a5</code>...</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Customer Registration Modal -->
+  <div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" tabindex="-1">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="registerModalTitle"><img src="images/logo-car.svg" alt="" style="height:24px; vertical-align:middle; margin-right:6px;"> Customer Registration</h3>
+        <button type="button" class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="wizard-subtitle" style="text-align:left; margin-bottom:1.25rem;">Create your profile for streamlined estimates, repair tracking, and express service.</p>
+        
+        <div id="registerSuccessAlert" class="modal-alert modal-alert-success" style="display:none;">
+          <span>✓</span>
+          <div>
+            <strong>Registration successful!</strong> Your profile has been created and saved to the customer database.
+          </div>
+        </div>
+
+        <form id="customerRegistrationForm" novalidate>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regFirstName">First Name *</label>
+              <input type="text" id="regFirstName" name="firstName" class="form-control" required placeholder="Robin">
+            </div>
+            <div class="form-group">
+              <label for="regLastName">Last Name *</label>
+              <input type="text" id="regLastName" name="lastName" class="form-control" required placeholder="Roberts">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regPhone">Phone Number *</label>
+              <input type="tel" id="regPhone" name="phone" class="form-control" required placeholder="(801) 377-7252">
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address *</label>
+              <input type="email" id="regEmail" name="email" class="form-control" required placeholder="name@example.com">
+            </div>
+          </div>
+
+          <div style="margin-top: 1rem; margin-bottom: 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px;">Optional Vehicle Information</span>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regYear">Vehicle Year</label>
+              <input type="number" id="regYear" name="year" class="form-control" placeholder="e.g. 2022" min="1950" max="2030">
+            </div>
+            <div class="form-group">
+              <label for="regMake">Vehicle Make</label>
+              <input type="text" id="regMake" name="make" class="form-control" placeholder="e.g. Ford / Toyota">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regModel">Vehicle Model</label>
+              <input type="text" id="regModel" name="model" class="form-control" placeholder="e.g. F-150 / Camry">
+            </div>
+            <div class="form-group">
+              <label for="regVin">VIN Number</label>
+              <input type="text" id="regVin" name="vin" class="form-control" placeholder="17-character VIN" maxlength="17" style="text-transform:uppercase;">
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+            <button type="submit" class="btn btn-primary" id="regSubmitBtn">Complete Registration</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK & Customer Database Integration (dynamic-e17a5) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    let allCustomers = [];
+
+    async function loadCustomersTable() {
+      const tbody = document.getElementById('customerTableBody');
+      const statTotal = document.getElementById('statTotalCustomers');
+      const statVehicles = document.getElementById('statTotalVehicles');
+
+      try {
+        if (window.DynamicFirebase && typeof window.DynamicFirebase.getCustomers === 'function') {
+          allCustomers = await window.DynamicFirebase.getCustomers();
+        } else {
+          allCustomers = JSON.parse(localStorage.getItem('dynamic_collision_customers') || '[]');
+        }
+
+        renderTable(allCustomers);
+      } catch (err) {
+        console.error('Error loading customers:', err);
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state">Unable to load customers from Firebase: ${err.message}</td></tr>`;
+      }
+    }
+
+    function renderTable(list) {
+      const tbody = document.getElementById('customerTableBody');
+      const statTotal = document.getElementById('statTotalCustomers');
+      const statVehicles = document.getElementById('statTotalVehicles');
+
+      statTotal.textContent = list.length;
+      const vehiclesCount = list.filter(c => (c.vehicleMake || c.vehicleModel || c.vin)).length;
+      statVehicles.textContent = vehiclesCount;
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">📂</div>
+          <div style="font-weight:600; margin-bottom:0.25rem;">No customer records yet</div>
+          <div>New submissions via the website registration modal will appear here in real-time.</div>
+        </td></tr>`;
+        return;
+      }
+
+      let html = '';
+      list.forEach(c => {
+        const dateStr = c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A';
+        const fullName = `${c.lastName || ''}, ${c.firstName || ''}`.trim() || 'N/A';
+        const phone = c.phone || 'N/A';
+        const email = c.email || 'N/A';
+        const vehicleParts = [c.vehicleYear, c.vehicleMake, c.vehicleModel].filter(Boolean).join(' ');
+        const vehicle = vehicleParts || '<span style="color:#6b7280;">None provided</span>';
+        const vin = c.vin ? `<span class="badge-vin">${c.vin}</span>` : '<span style="color:#6b7280;">N/A</span>';
+        const code = c.registrationCode ? `<span class="badge-code">${c.registrationCode}</span>` : '—';
+
+        html += `
+          <tr>
+            <td style="color:#9ca3af; font-size:0.85rem;">${dateStr}</td>
+            <td>${code}</td>
+            <td style="font-weight:600; color:#fff;">${fullName}</td>
+            <td><a href="tel:${phone.replace(/\D/g, '')}" style="color:#e5e7eb; text-decoration:none;">${phone}</a></td>
+            <td><a href="mailto:${email}" style="color:#9ca3af; text-decoration:none;">${email}</a></td>
+            <td>${vehicle}</td>
+            <td>${vin}</td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    // Filter functionality
+    document.getElementById('customerSearchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) {
+        renderTable(allCustomers);
+        return;
+      }
+      const filtered = allCustomers.filter(c => {
+        const text = `${c.firstName} ${c.lastName} ${c.phone} ${c.email} ${c.vehicleYear} ${c.vehicleMake} ${c.vehicleModel} ${c.vin} ${c.registrationCode}`.toLowerCase();
+        return text.includes(q);
+      });
+      renderTable(filtered);
+    });
+
+    // Refresh
+    document.getElementById('btnRefreshDb').addEventListener('click', loadCustomersTable);
+
+    // Export to CSV
+    document.getElementById('btnExportCsv').addEventListener('click', () => {
+      if (!allCustomers.length) {
+        alert('No customer records to export.');
+        return;
+      }
+      const headers = ['Date', 'Registration Code', 'Last Name', 'First Name', 'Phone', 'Email', 'Vehicle Year', 'Vehicle Make', 'Vehicle Model', 'VIN', 'Status'];
+      const rows = allCustomers.map(c => [
+        `"${c.createdAt || ''}"`,
+        `"${c.registrationCode || ''}"`,
+        `"${c.lastName || ''}"`,
+        `"${c.firstName || ''}"`,
+        `"${c.phone || ''}"`,
+        `"${c.email || ''}"`,
+        `"${c.vehicleYear || ''}"`,
+        `"${c.vehicleMake || ''}"`,
+        `"${c.vehicleModel || ''}"`,
+        `"${c.vin || ''}"`,
+        `"${c.status || 'Active'}"`
+      ]);
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `dynamic_collision_customers_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    window.addEventListener('load', loadCustomersTable);
+  </script>
+</body>
+</html>

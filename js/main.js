@@ -405,54 +405,64 @@ function initModals() {
 
       if (!valid) return;
 
-      const regCode = 'DC-REG-' + Math.floor(100000 + Math.random() * 900000);
-
-      const regData = {
-        registrationCode: regCode,
+      // Save to Firebase customer database
+      const customerPayload = {
         firstName: firstName ? firstName.value.trim() : '',
         lastName: lastName ? lastName.value.trim() : '',
         phone: phone ? phone.value.trim() : '',
         email: email ? email.value.trim() : '',
-        year: document.getElementById('regYear') ? document.getElementById('regYear').value.trim() : '',
-        make: document.getElementById('regMake') ? document.getElementById('regMake').value.trim() : '',
-        model: document.getElementById('regModel') ? document.getElementById('regModel').value.trim() : '',
+        vehicleYear: document.getElementById('regYear') ? document.getElementById('regYear').value.trim() : '',
+        vehicleMake: document.getElementById('regMake') ? document.getElementById('regMake').value.trim() : '',
+        vehicleModel: document.getElementById('regModel') ? document.getElementById('regModel').value.trim() : '',
         vin: document.getElementById('regVin') ? document.getElementById('regVin').value.trim().toUpperCase() : '',
-        registeredAt: new Date().toISOString(),
-        routedTo: ['contact@dynamiccollisionprovo.com', 'brandon@dynamiccollisionrepair.com']
+        source: 'Website Customer Registration (dynamiccollisionprovo.com)'
       };
 
-      try {
-        const stored = JSON.parse(localStorage.getItem('dynamic_collision_registrations') || '[]');
-        stored.push(regData);
-        localStorage.setItem('dynamic_collision_registrations', JSON.stringify(stored));
-      } catch (err) {
-        console.warn('LocalStorage unavailable:', err);
-      }
-
-      const regCodeDisplay = document.getElementById('regCodeDisplay');
-      if (regCodeDisplay) {
-        regCodeDisplay.textContent = regCode;
-      }
-
       const submitBtn = document.getElementById('regSubmitBtn');
+      const originalBtnText = submitBtn ? submitBtn.textContent : 'Complete Registration';
       if (submitBtn) {
-        submitBtn.textContent = 'Registered! ✓';
+        submitBtn.textContent = 'Saving to Database...';
         submitBtn.disabled = true;
       }
 
-      if (regSuccessAlert) {
-        regSuccessAlert.style.display = 'flex';
-      }
-
-      setTimeout(() => {
-        regForm.reset();
-        if (regSuccessAlert) regSuccessAlert.style.display = 'none';
-        if (submitBtn) {
-          submitBtn.textContent = 'Complete Registration';
-          submitBtn.disabled = false;
+      const finishSubmission = (regCode) => {
+        const regCodeDisplay = document.getElementById('regCodeDisplay');
+        if (regCodeDisplay && regCode) {
+          regCodeDisplay.textContent = regCode;
         }
-        closeModal(document.getElementById('registerModal'));
-      }, 3500);
+
+        if (submitBtn) {
+          submitBtn.textContent = 'Registration Complete! ✓';
+        }
+
+        if (regSuccessAlert) {
+          regSuccessAlert.style.display = 'flex';
+        }
+
+        setTimeout(() => {
+          regForm.reset();
+          if (regSuccessAlert) regSuccessAlert.style.display = 'none';
+          if (submitBtn) {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+          }
+          closeModal(document.getElementById('registerModal'));
+        }, 3500);
+      };
+
+      if (window.DynamicFirebase && typeof window.DynamicFirebase.saveCustomer === 'function') {
+        window.DynamicFirebase.saveCustomer(customerPayload)
+          .then((result) => {
+            console.log('[Registration] Customer successfully linked to Firebase database:', result);
+            finishSubmission(result.customer ? result.customer.registrationCode : null);
+          })
+          .catch((err) => {
+            console.error('[Registration] Firebase save error:', err);
+            finishSubmission(null);
+          });
+      } else {
+        finishSubmission(null);
+      }
     });
   }
 }
@@ -794,6 +804,18 @@ function initQuoteWizard() {
         console.warn('LocalStorage error:', err);
       }
 
+      // Sync customer to Firebase
+      if (window.DynamicFirebase && typeof window.DynamicFirebase.saveCustomer === 'function') {
+        window.DynamicFirebase.saveCustomer({
+          firstName: wizardState.firstName,
+          lastName: wizardState.lastName,
+          phone: wizardState.phone,
+          email: wizardState.email,
+          vin: wizardState.vin,
+          source: 'Interactive Quote Wizard (Quote #' + quoteCode + ')'
+        }).catch(e => console.warn('[Firebase] Quote wizard customer sync note:', e));
+      }
+
       if (submitBtn) {
         submitBtn.textContent = 'Estimate Submitted! ✓';
         submitBtn.disabled = true;
@@ -1127,6 +1149,19 @@ function initEstimateForm() {
       localStorage.setItem('dynamic_collision_estimates', JSON.stringify(stored));
     } catch (err) {
       console.warn('LocalStorage error:', err);
+    }
+
+    // Automatically sync customer to Firebase database
+    if (window.DynamicFirebase && typeof window.DynamicFirebase.saveCustomer === 'function') {
+      window.DynamicFirebase.saveCustomer({
+        firstName: firstName ? firstName.value.trim() : '',
+        lastName: lastName ? lastName.value.trim() : '',
+        phone: phone ? phone.value.trim() : '',
+        email: email ? email.value.trim() : '',
+        vin: vin ? vin.value.trim().toUpperCase() : '',
+        vehicleModel: vehicle ? vehicle.value.trim() : '',
+        source: 'Online Estimate Request (Ticket #' + ticketCode + ')'
+      }).catch(err => console.warn('[Firebase] Estimate customer sync notice:', err));
     }
 
     if (ticketCodeDisplay) {
